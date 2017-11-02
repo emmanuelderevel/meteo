@@ -1,12 +1,407 @@
-{% extends 'base.html' %}
-{% block title %}LOoooooooo{% endblock %}
-{% block content %}
-<div class="bgimg-1 w3-display-container" id="home">
-  <div class="w3-display-middle" style="white-space:nowrap;background-color:white;padding:20px;opacity:0.6;color:black;">
-<p>Temperature : {{ temp }}°C</p>
-<form action="{% url 'login' %}">
-  <button class="w3-button w3-red w3-left w3-section" type="submit">SET ALARM</button>
-</form>
+<!DOCTYPE html>
+<html>
+{% load static %}
+<title>hello</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body {
+    background-image: url(https://maps.googleapis.com/maps/api/place/photo?maxwidth=1024&photoreference={{reference}}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ);
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  div{
+    color: white;
+  }
+  table{
+    color:white;
+  }
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-card w3-white" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="{% url 'find_city' %}" class="w3-bar-item w3-button"><i class="fa fa-search"></i>  FIND CITY</a>
+    <a href="{% url 'login' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i>  MY ALERTS</a>
   </div>
 </div>
-{% endblock %}
+
+<!-- Content -->
+<div class="bgimg-1 w3-display-container" id="home">
+  <div style="background-color:black;padding:20px;opacity:0.6;color:black;">
+  <form action="{% url 'login' %}">
+    <button class="w3-button w3-red w3-left w3-section" type="submit">SET ALARM</button>
+  </form>
+  <section class="weather-card C(#fff) M(10px) Pos(a) B(0) Start(0) End(0)" data-type="temperature" data-reactid="21">
+    <div class="temperature Fz(14px) Tsh($temperature-text-shadow)" data-reactid="22">
+      <div class="My(2px)" data-reactid="23">
+        <span data-code="39" class="Va(m)" data-reactid="24">
+          <img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon}}.png" data-reactid="25">
+        </span>
+        <span style="font-size:35">{{description}}</span>
+      </div>
+      <br />
+      <div class="high-low My(2px) Fz(1.2em)--sm Fz(1.6em) Trsdu(.3s)" data-reactid="27">
+        <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-up" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
+          <path d="M13.764 18.75c-.792.772-.808 2.037-.04 2.828.772.792 2.038.81 2.83.04l5.678-5.526v23.59h4v-23.59l5.68 5.525c.79.77 2.058.753 2.827-.04.377-.388.565-.89.565-1.394 0-.52-.202-1.042-.605-1.434L24.23 8.566 13.763 18.75z">
+          </path>
+        </svg>
+        <span class="Va(m) Px(6px)" data-reactid="29"><!-- react-text: 30 -->{{max}}<!-- /react-text --><!-- react-text: 31 -->°<!-- /react-text -->
+        </span>
+        <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-down" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
+          <path d="M34.7 29.5c.793-.773.81-2.038.04-2.83-.77-.79-2.037-.81-2.83-.038l-5.677 5.525V8.567h-4v23.59l-5.68-5.525c-.79-.77-2.058-.753-2.827.04-.378.388-.566.89-.566 1.394 0 .52.202 1.042.605 1.434l10.472 10.183L34.7 29.5z">
+          </path>
+        </svg>
+        <span class="Va(m) Px(6px)" data-reactid="33"><!-- react-text: 34 -->{{min}}<!-- /react-text --><!-- react-text: 35 -->°<!-- /react-text -->
+        </span>
+      </div>
+      <br />
+      <div class="now Fz(8em)--sm Fz(10em) Lh(0.9em) Fw(100) My(2px) Trsdu(.3s)" data-reactid="36">
+        <span class="Va(t)" data-reactid="37" style="font-size:85px">{{temp}}</span>
+        <span class="Va(t) Fz(.7em) Lh(1em)" data-reactid="38" style="font-size:25px">°</span>
+        <span class="unit Tt(c) Fz(.2em) Fw(200) O(n) P(6px) Va(t) D(b) Lh(1em) Tsh($temperature-text-shadow) M(a) C(#fff)" data-reactid="40" style="font-size:25px">C</span>
+      </div>
+    </div>
+  </section>
+  <section style="background-color:dark-bg">
+    <table>
+      <caption style="font-size:25"><br /><br />Forecast<br /><br /></caption>
+
+      <thead> <!-- En-tête du tableau -->
+        <tr>
+            <th></th>
+            <th>00:00</th>
+            <th>03:00</th>
+            <th>06:00</th>
+            <th>09:00</th>
+            <th>12:00</th>
+            <th>15:00</th>
+            <th>18:00</th>
+            <th>21:00</th>
+          </tr>
+        </thead>
+
+        <tbody> <!-- Corps du tableau -->
+          <tr>
+            <td>{{day1}}</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon11}}.png" data-reactid="25">
+            <br /><span>{{desc11}}
+            <br /><span>{{temp11}} °C
+            <br /><span>{{max11}}/{{min11}}
+            <br /><span>{{wind11}}
+            <br /><span>{{pressure11}} hPa
+            <br /><span>{{humidity11}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon12}}.png" data-reactid="25">
+            <br /><span>{{desc12}}
+            <br /><span>{{temp12}} °C
+            <br /><span>{{max12}}/{{min12}}
+            <br /><span>{{wind12}} hPa
+            <br /><span>{{pressure12}} hPa
+            <br /><span>{{humidity12}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon13}}.png" data-reactid="25">
+            <br /><span>{{desc13}}
+            <br /><span>{{temp13}} °C
+            <br /><span>{{max13}}/{{min13}}
+            <br /><span>{{wind13}}
+            <br /><span>{{pressure13}} hPa
+            <br /><span>{{humidity13}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon14}}.png" data-reactid="25">
+            <br /><span>{{desc14}}
+            <br /><span>{{temp14}} °C
+            <br /><span>{{max14}}/{{min14}}
+            <br /><span>{{wind14}}
+            <br /><span>{{pressure14}} hPa
+            <br /><span>{{humidity14}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon15}}.png" data-reactid="25">
+            <br /><span>{{desc15}}
+            <br /><span>{{temp15}} °C
+            <br /><span>{{max15}}/{{min15}}
+            <br /><span>{{wind15}}
+            <br /><span>{{pressure15}} hPa
+            <br /><span>{{humidity15}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon16}}.png" data-reactid="25">
+            <br /><span>{{desc16}}
+            <br /><span>{{temp16}} °C
+            <br /><span>{{max16}}/{{min16}}
+            <br /><span>{{wind16}}
+            <br /><span>{{pressure16}} hPa
+            <br /><span>{{humidity16}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon17}}.png" data-reactid="25">
+            <br /><span>{{desc17}}
+            <br /><span>{{temp17}} °C
+            <br /><span>{{max17}}/{{min17}}
+            <br /><span>{{wind17}}
+            <br /><span>{{pressure17}} hPa
+            <br /><span>{{humidity17}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon18}}.png" data-reactid="25">
+            <br /><span>{{desc18}}
+            <br /><span>{{temp18}} °C
+            <br /><span>{{max18}}/{{min18}}
+            <br /><span>{{wind18}}
+            <br /><span>{{pressure18}} hPa
+            <br /><span>{{humidity18}} %</td>
+          </tr>
+
+
+
+          <tr>
+            <td>{{day1}}</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon11}}.png" data-reactid="25">
+            <br /><span>{{desc21}}
+            <br /><span>{{temp21}} °C
+            <br /><span>{{max21}}/{{min11}}
+            <br /><span>{{wind21}}
+            <br /><span>{{pressure21}} hPa
+            <br /><span>{{humidity21}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon12}}.png" data-reactid="25">
+            <br /><span>{{desc22}}
+            <br /><span>{{temp22}} °C
+            <br /><span>{{max22}}/{{min22}}
+            <br /><span>{{wind22}} hPa
+            <br /><span>{{pressure22}} hPa
+            <br /><span>{{humidity22}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon13}}.png" data-reactid="25">
+            <br /><span>{{desc23}}
+            <br /><span>{{temp23}} °C
+            <br /><span>{{max23}}/{{min23}}
+            <br /><span>{{wind23}}
+            <br /><span>{{pressure23}} hPa
+            <br /><span>{{humidity23}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon14}}.png" data-reactid="25">
+            <br /><span>{{desc24}}
+            <br /><span>{{temp24}} °C
+            <br /><span>{{max24}}/{{min24}}
+            <br /><span>{{wind24}}
+            <br /><span>{{pressure24}} hPa
+            <br /><span>{{humidity24}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon15}}.png" data-reactid="25">
+            <br /><span>{{desc25}}
+            <br /><span>{{temp25}} °C
+            <br /><span>{{max25}}/{{min25}}
+            <br /><span>{{wind25}}
+            <br /><span>{{pressure25}} hPa
+            <br /><span>{{humidity25}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon16}}.png" data-reactid="25">
+            <br /><span>{{desc26}}
+            <br /><span>{{temp26}} °C
+            <br /><span>{{max26}}/{{min26}}
+            <br /><span>{{wind26}}
+            <br /><span>{{pressure26}} hPa
+            <br /><span>{{humidity26}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon17}}.png" data-reactid="25">
+            <br /><span>{{desc27}}
+            <br /><span>{{temp27}} °C
+            <br /><span>{{max27}}/{{min27}}
+            <br /><span>{{wind27}}
+            <br /><span>{{pressure27}} hPa
+            <br /><span>{{humidity27}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon18}}.png" data-reactid="25">
+            <br /><span>{{desc28}}
+            <br /><span>{{temp28}} °C
+            <br /><span>{{max28}}/{{min28}}
+            <br /><span>{{wind28}}
+            <br /><span>{{pressure28}} hPa
+            <br /><span>{{humidity28}} %</td>
+          </tr>
+
+
+
+          <tr>
+            <td>{{day1}}</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon11}}.png" data-reactid="25">
+            <br /><span>{{desc31}}
+            <br /><span>{{temp31}} °C
+            <br /><span>{{max31}}/{{min31}}
+            <br /><span>{{wind31}}
+            <br /><span>{{pressure31}} hPa
+            <br /><span>{{humidity31}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon12}}.png" data-reactid="25">
+            <br /><span>{{desc32}}
+            <br /><span>{{temp32}} °C
+            <br /><span>{{max32}}/{{min32}}
+            <br /><span>{{wind32}} hPa
+            <br /><span>{{pressure32}} hPa
+            <br /><span>{{humidity32}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon13}}.png" data-reactid="25">
+            <br /><span>{{desc33}}
+            <br /><span>{{temp33}} °C
+            <br /><span>{{max33}}/{{min13}}
+            <br /><span>{{wind33}}
+            <br /><span>{{pressure33}} hPa
+            <br /><span>{{humidity33}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon14}}.png" data-reactid="25">
+            <br /><span>{{desc34}}
+            <br /><span>{{temp34}} °C
+            <br /><span>{{max34}}/{{min34}}
+            <br /><span>{{wind34}}
+            <br /><span>{{pressure34}} hPa
+            <br /><span>{{humidity34}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon15}}.png" data-reactid="25">
+            <br /><span>{{desc35}}
+            <br /><span>{{temp35}} °C
+            <br /><span>{{max35}}/{{min35}}
+            <br /><span>{{wind35}}
+            <br /><span>{{pressure35}} hPa
+            <br /><span>{{humidity35}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon16}}.png" data-reactid="25">
+            <br /><span>{{desc36}}
+            <br /><span>{{temp36}} °C
+            <br /><span>{{max36}}/{{min36}}
+            <br /><span>{{wind36}}
+            <br /><span>{{pressure36}} hPa
+            <br /><span>{{humidity36}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon17}}.png" data-reactid="25">
+            <br /><span>{{desc37}}
+            <br /><span>{{temp37}} °C
+            <br /><span>{{max37}}/{{min37}}
+            <br /><span>{{wind37}}
+            <br /><span>{{pressure37}} hPa
+            <br /><span>{{humidity37}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon18}}.png" data-reactid="25">
+            <br /><span>{{desc38}}
+            <br /><span>{{temp38}} °C
+            <br /><span>{{max38}}/{{min38}}
+            <br /><span>{{wind38}}
+            <br /><span>{{pressure38}} hPa
+            <br /><span>{{humidity38}} %</td>
+          </tr>
+
+
+
+          <tr>
+            <td>{{day1}}</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon11}}.png" data-reactid="25">
+            <br /><span>{{desc41}}
+            <br /><span>{{temp41}} °C
+            <br /><span>{{max41}}/{{min41}}
+            <br /><span>{{wind41}}
+            <br /><span>{{pressure41}} hPa
+            <br /><span>{{humidity41}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon12}}.png" data-reactid="25">
+            <br /><span>{{desc42}}
+            <br /><span>{{temp42}} °C
+            <br /><span>{{max42}}/{{min42}}
+            <br /><span>{{wind42}}
+            <br /><span>{{pressure42}} hPa
+            <br /><span>{{humidity42}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon13}}.png" data-reactid="25">
+            <br /><span>{{desc43}}
+            <br /><span>{{temp43}} °C
+            <br /><span>{{max43}}/{{min43}}
+            <br /><span>{{wind43}}
+            <br /><span>{{pressure43}} hPa
+            <br /><span>{{humidity43}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon14}}.png" data-reactid="25">
+            <br /><span>{{desc44}}
+            <br /><span>{{temp44}} °C
+            <br /><span>{{max44}}/{{min44}}
+            <br /><span>{{wind44}}
+            <br /><span>{{pressure44}} hPa
+            <br /><span>{{humidity44}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon15}}.png" data-reactid="25">
+            <br /><span>{{desc45}}
+            <br /><span>{{temp45}} °C
+            <br /><span>{{max45}}/{{min45}}
+            <br /><span>{{wind45}}
+            <br /><span>{{pressure45}} hPa
+            <br /><span>{{humidity45}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon16}}.png" data-reactid="25">
+            <br /><span>{{desc46}}
+            <br /><span>{{temp46}} °C
+            <br /><span>{{max46}}/{{min46}}
+            <br /><span>{{wind46}}
+            <br /><span>{{pressure46}} hPa
+            <br /><span>{{humidity46}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon17}}.png" data-reactid="25">
+            <br /><span>{{desc47}}
+            <br /><span>{{temp47}} °C
+            <br /><span>{{max47}}/{{min47}}
+            <br /><span>{{wind47}}
+            <br /><span>{{pressure47}} hPa
+            <br /><span>{{humidity47}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon18}}.png" data-reactid="25">
+            <br /><span>{{desc48}}
+            <br /><span>{{temp48}} °C
+            <br /><span>{{max48}}/{{min48}}
+            <br /><span>{{wind48}}
+            <br /><span>{{pressure48}} hPa
+            <br /><span>{{humidity48}} %</td>
+          </tr>
+
+
+
+          <tr>
+            <td>{{day1}}</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon11}}.png" data-reactid="25">
+            <br /><span>{{desc51}}
+            <br /><span>{{temp51}} °C
+            <br /><span>{{max51}}/{{min51}}
+            <br /><span>{{wind51}}
+            <br /><span>{{pressure51}} hPa
+            <br /><span>{{humidity51}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon12}}.png" data-reactid="25">
+            <br /><span>{{desc52}}
+            <br /><span>{{temp52}} °C
+            <br /><span>{{max52}}/{{min52}}
+            <br /><span>{{wind52}} hPa
+            <br /><span>{{pressure52}} hPa
+            <br /><span>{{humidity52}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon13}}.png" data-reactid="25">
+            <br /><span>{{desc53}}
+            <br /><span>{{temp53}} °C
+            <br /><span>{{max53}}/{{min53}}
+            <br /><span>{{wind53}}
+            <br /><span>{{pressure53}} hPa
+            <br /><span>{{humidity53}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon14}}.png" data-reactid="25">
+            <br /><span>{{desc54}}
+            <br /><span>{{temp54}} °C
+            <br /><span>{{max54}}/{{min54}}
+            <br /><span>{{wind54}}
+            <br /><span>{{pressure54}} hPa
+            <br /><span>{{humidity54}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon15}}.png" data-reactid="25">
+            <br /><span>{{desc55}}
+            <br /><span>{{temp55}} °C
+            <br /><span>{{max55}}/{{min55}}
+            <br /><span>{{wind55}}
+            <br /><span>{{pressure55}} hPa
+            <br /><span>{{humidity55}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon16}}.png" data-reactid="25">
+            <br /><span>{{desc56}}
+            <br /><span>{{temp56}} °C
+            <br /><span>{{max56}}/{{min56}}
+            <br /><span>{{wind56}}
+            <br /><span>{{pressure56}} hPa
+            <br /><span>{{humidity56}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon17}}.png" data-reactid="25">
+            <br /><span>{{desc57}}
+            <br /><span>{{temp57}} °C
+            <br /><span>{{max57}}/{{min57}}
+            <br /><span>{{wind57}}
+            <br /><span>{{pressure57}} hPa
+            <br /><span>{{humidity57}} %</td>
+            <td><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon18}}.png" data-reactid="25">
+            <br /><span>{{desc58}}
+            <br /><span>{{temp58}} °C
+            <br /><span>{{max58}}/{{min58}}
+            <br /><span>{{wind58}}
+            <br /><span>{{pressure58}} hPa
+            <br /><span>{{humidity58}} %</td>
+          </tr>
+        </tbody>
+    </table>
+      </section>
+  </div>
+</div>
+</body>
+</html>
+
+
