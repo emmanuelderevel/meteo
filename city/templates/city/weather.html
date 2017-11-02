@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}LOoooooooo{% endblock %}
+{% block content %}
+<div class="bgimg-1 w3-display-container" id="home">
+  <div class="w3-display-middle" style="white-space:nowrap;background-color:white;padding:20px;opacity:0.6;color:black;">
+<p>Temperature : {{ temp }}°C</p>
+<form action="{% url 'login' %}">
+  <button class="w3-button w3-red w3-left w3-section" type="submit">SET ALARM</button>
+</form>
+  </div>
+</div>
+{% endblock %}
