@@ -1,2 +1,4 @@
 .idea/
 meteo/.idea/
+
+__pycache__/
