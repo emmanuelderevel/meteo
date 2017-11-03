@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}WEATHER - Results{% endblock %}
+{% block content %}
+<div class="bgimg-1 w3-display-container" id="home">
+    <div class="w3-display-middle" style="white-space:nowrap;background-color:white;padding:20px;opacity:0.6;color:black;">
+      <h3>Which "{{nom_ville}}" are you looking for ?</h3>
+{% for l in L %}
+{% for key, value in l.items %}
+{% if key == 'id' %}
+<!-- utiliser des classes pour aller chercher le nom de la ville etc. -->
+<p><a href="{% url 'weather' value %}">{% elif key == 'name' %} {{ value }} {% elif key == 'country' %} {{ value }}</a></p>
+{% endif %}
+{% endfor %}
+{% endfor %}
+  </div>
+</div>
+{% endblock %}
