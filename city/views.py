@@ -1,12 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 import json
 from django.http import HttpResponseRedirect
-from .forms import NameForm
+from .forms import NameForm, SignUpForm, ConnexionForm
 from .weather import Weather
 from datetime import datetime
 from .forecast import Forecast
 from .CityPic import Img
+
+
+#Import Login functions
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+
 
 def DayOfWeek(wd):
     if wd == 1: return 'Monday'
@@ -117,6 +125,7 @@ def get_city_id(request):
 
     return render(request, 'city/find_city.html', {'form': form})
 
+
 def find_city(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -137,6 +146,48 @@ def find_city(request):
         form = NameForm()
     return render(request, 'city/find_city.html', locals())
 
-def login(request):
-    return render(request, 'city/login.html', locals())
 
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            username=form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = User.objects.create_user(username, email, password)
+            return render(request, 'city/alerts.html', locals())
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SignUpForm()
+    return render(request, 'city/signup.html', locals())
+
+
+def connexion(request):
+    error = False
+    next = request.GET.get('next')
+    if request.method == "POST":
+        form = ConnexionForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)  # Nous vérifions si les données sont correctes
+            if user:  # Si l'objet renvoyé n'est pas None
+                login(request, user)
+                next = request.POST.get('next')
+                return HttpResponseRedirect(next)
+            else: # sinon une erreur sera affichée
+                error = True
+    else:
+        form = ConnexionForm()
+    return render(request, 'city/connexion.html', locals())
+
+
+@login_required
+def alerts(request):
+    return render(request, 'city/alerts.html', locals())
+
+
+def sign_out(request):
+    logout(request)
+    return redirect('find_city')
