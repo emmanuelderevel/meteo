@@ -7,6 +7,7 @@ from .weather import Weather
 from datetime import datetime
 from .forecast import Forecast
 from .CityPic import Img
+from .LocalTime import LocalTime
 
 
 #Import Login functions
@@ -40,16 +41,18 @@ def weather(request, city_id):
     lon=int(weather1.dict['lon'])
     lat=int(weather1.dict['lat'])
 
+
     img=Img(lat,lon)
     img.retrieveImgRef()
     reference=img.reference
     width=int(img.width)
 
+
     fcst = Forecast(city_id)
     fcst.retrieve_forecast()
-    wd=datetime.strptime(fcst.day_1[0]['dt_txt'][:10],'%Y-%m-%d').isoweekday()
 
-    day1=DayOfWeek(wd)
+    wd1=datetime.strptime(fcst.day_1[0]['dt_txt'][:10],'%Y-%m-%d').isoweekday()
+    day1=DayOfWeek(wd1)
     temp11, max11, min11, wind11, pressure11, humidity11, desc11, icon11 = fcst.day_1[0]['main']['temp'],fcst.day_1[0]['main']['temp_max'],fcst.day_1[0]['main']['temp_min'], fcst.day_1[0]['wind']['speed'],fcst.day_1[0]['main']['pressure'],fcst.day_1[0]['main']['humidity'],fcst.day_1[0]['weather'][0]['description'],fcst.day_1[0]['weather'][0]['icon']
     temp12, max12, min12, wind12, pressure12, humidity12, desc12, icon12 = fcst.day_1[1]['main']['temp'],fcst.day_1[1]['main']['temp_max'],fcst.day_1[1]['main']['temp_min'], fcst.day_1[1]['wind']['speed'],fcst.day_1[1]['main']['pressure'],fcst.day_1[1]['main']['humidity'],fcst.day_1[1]['weather'][0]['description'],fcst.day_1[1]['weather'][0]['icon']
     temp13, max13, min13, wind13, pressure13, humidity13, desc13, icon13 = fcst.day_1[2]['main']['temp'],fcst.day_1[2]['main']['temp_max'],fcst.day_1[2]['main']['temp_min'], fcst.day_1[2]['wind']['speed'],fcst.day_1[2]['main']['pressure'],fcst.day_1[2]['main']['humidity'],fcst.day_1[2]['weather'][0]['description'],fcst.day_1[2]['weather'][0]['icon']
@@ -59,7 +62,8 @@ def weather(request, city_id):
     temp17, max17, min17, wind17, pressure17, humidity17, desc17, icon17 = fcst.day_1[6]['main']['temp'],fcst.day_1[6]['main']['temp_max'],fcst.day_1[6]['main']['temp_min'], fcst.day_1[6]['wind']['speed'],fcst.day_1[6]['main']['pressure'],fcst.day_1[6]['main']['humidity'],fcst.day_1[6]['weather'][0]['description'],fcst.day_1[6]['weather'][0]['icon']
     temp18, max18, min18, wind18, pressure18, humidity18, desc18, icon18 = fcst.day_1[7]['main']['temp'],fcst.day_1[7]['main']['temp_max'],fcst.day_1[7]['main']['temp_min'], fcst.day_1[7]['wind']['speed'],fcst.day_1[7]['main']['pressure'],fcst.day_1[7]['main']['humidity'],fcst.day_1[7]['weather'][0]['description'],fcst.day_1[7]['weather'][0]['icon']
 
-    day2=DayOfWeek(wd+1)
+    wd2 = datetime.strptime(fcst.day_2[0]['dt_txt'][:10], '%Y-%m-%d').isoweekday()
+    day2=DayOfWeek(wd2)
     temp21, max21, min21, wind21, pressure21, humidity21, desc21, icon21 = fcst.day_2[0]['main']['temp'],fcst.day_2[0]['main']['temp_max'],fcst.day_2[0]['main']['temp_min'], fcst.day_2[0]['wind']['speed'],fcst.day_2[0]['main']['pressure'],fcst.day_2[0]['main']['humidity'],fcst.day_2[0]['weather'][0]['description'],fcst.day_2[0]['weather'][0]['icon']
     temp22, max22, min22, wind22, pressure22, humidity22, desc22, icon22 = fcst.day_2[1]['main']['temp'],fcst.day_2[1]['main']['temp_max'],fcst.day_2[1]['main']['temp_min'], fcst.day_2[1]['wind']['speed'],fcst.day_2[1]['main']['pressure'],fcst.day_2[1]['main']['humidity'],fcst.day_2[1]['weather'][0]['description'],fcst.day_2[1]['weather'][0]['icon']
     temp23, max23, min23, wind23, pressure23, humidity23, desc23, icon23 = fcst.day_2[2]['main']['temp'],fcst.day_2[2]['main']['temp_max'],fcst.day_2[2]['main']['temp_min'], fcst.day_2[2]['wind']['speed'],fcst.day_2[2]['main']['pressure'],fcst.day_2[2]['main']['humidity'],fcst.day_2[2]['weather'][0]['description'],fcst.day_2[2]['weather'][0]['icon']
@@ -69,7 +73,8 @@ def weather(request, city_id):
     temp27, max27, min27, wind27, pressure27, humidity27, desc27, icon27 = fcst.day_2[6]['main']['temp'],fcst.day_2[6]['main']['temp_max'],fcst.day_2[6]['main']['temp_min'], fcst.day_2[6]['wind']['speed'],fcst.day_2[6]['main']['pressure'],fcst.day_2[6]['main']['humidity'],fcst.day_2[6]['weather'][0]['description'],fcst.day_2[6]['weather'][0]['icon']
     temp28, max28, min28, wind28, pressure28, humidity28, desc28, icon28 = fcst.day_2[7]['main']['temp'],fcst.day_2[7]['main']['temp_max'],fcst.day_2[7]['main']['temp_min'], fcst.day_2[7]['wind']['speed'],fcst.day_2[7]['main']['pressure'],fcst.day_2[7]['main']['humidity'],fcst.day_2[7]['weather'][0]['description'],fcst.day_2[7]['weather'][0]['icon']
 
-    day3=DayOfWeek(wd+2)
+    wd3 = datetime.strptime(fcst.day_3[0]['dt_txt'][:10], '%Y-%m-%d').isoweekday()
+    day3=DayOfWeek(wd3)
     temp31, max31, min31, wind31, pressure31, humidity31, desc31, icon31 = fcst.day_3[0]['main']['temp'],fcst.day_3[0]['main']['temp_max'],fcst.day_3[0]['main']['temp_min'], fcst.day_3[0]['wind']['speed'],fcst.day_3[0]['main']['pressure'],fcst.day_3[0]['main']['humidity'],fcst.day_3[0]['weather'][0]['description'],fcst.day_3[0]['weather'][0]['icon']
     temp32, max32, min32, wind32, pressure32, humidity32, desc32, icon32 = fcst.day_3[1]['main']['temp'],fcst.day_3[1]['main']['temp_max'],fcst.day_3[1]['main']['temp_min'], fcst.day_3[1]['wind']['speed'],fcst.day_3[1]['main']['pressure'],fcst.day_3[1]['main']['humidity'],fcst.day_3[1]['weather'][0]['description'],fcst.day_3[1]['weather'][0]['icon']
     temp33, max33, min33, wind33, pressure33, humidity33, desc33, icon33 = fcst.day_3[2]['main']['temp'],fcst.day_3[2]['main']['temp_max'],fcst.day_3[2]['main']['temp_min'], fcst.day_3[2]['wind']['speed'],fcst.day_3[2]['main']['pressure'],fcst.day_3[2]['main']['humidity'],fcst.day_3[2]['weather'][0]['description'],fcst.day_3[2]['weather'][0]['icon']
@@ -79,7 +84,8 @@ def weather(request, city_id):
     temp37, max37, min37, wind37, pressure37, humidity37, desc37, icon37 = fcst.day_3[6]['main']['temp'],fcst.day_3[6]['main']['temp_max'],fcst.day_3[6]['main']['temp_min'], fcst.day_3[6]['wind']['speed'],fcst.day_3[6]['main']['pressure'],fcst.day_3[6]['main']['humidity'],fcst.day_3[6]['weather'][0]['description'],fcst.day_3[6]['weather'][0]['icon']
     temp38, max38, min38, wind38, pressure38, humidity38, desc38, icon38 = fcst.day_3[7]['main']['temp'],fcst.day_3[7]['main']['temp_max'],fcst.day_3[7]['main']['temp_min'], fcst.day_3[7]['wind']['speed'],fcst.day_3[7]['main']['pressure'],fcst.day_3[7]['main']['humidity'],fcst.day_3[7]['weather'][0]['description'],fcst.day_3[7]['weather'][0]['icon']
 
-    day4 = DayOfWeek(wd + 3)
+    wd4 = datetime.strptime(fcst.day_4[0]['dt_txt'][:10], '%Y-%m-%d').isoweekday()
+    day4 = DayOfWeek(wd4)
     temp41, max41, min41, wind41, pressure41, humidity41, desc41, icon41 = fcst.day_4[0]['main']['temp'],fcst.day_4[0]['main']['temp_max'],fcst.day_4[0]['main']['temp_min'], fcst.day_4[0]['wind']['speed'],fcst.day_4[0]['main']['pressure'],fcst.day_4[0]['main']['humidity'],fcst.day_4[0]['weather'][0]['description'],fcst.day_4[0]['weather'][0]['icon']
     temp42, max42, min42, wind42, pressure42, humidity42, desc42, icon42 = fcst.day_4[1]['main']['temp'],fcst.day_4[1]['main']['temp_max'],fcst.day_4[1]['main']['temp_min'], fcst.day_4[1]['wind']['speed'],fcst.day_4[1]['main']['pressure'],fcst.day_4[1]['main']['humidity'],fcst.day_4[1]['weather'][0]['description'],fcst.day_4[1]['weather'][0]['icon']
     temp43, max43, min43, wind43, pressure43, humidity43, desc43, icon43 = fcst.day_4[2]['main']['temp'],fcst.day_4[2]['main']['temp_max'],fcst.day_4[2]['main']['temp_min'], fcst.day_4[2]['wind']['speed'],fcst.day_4[2]['main']['pressure'],fcst.day_4[2]['main']['humidity'],fcst.day_4[2]['weather'][0]['description'],fcst.day_4[2]['weather'][0]['icon']
@@ -89,15 +95,9 @@ def weather(request, city_id):
     temp47, max47, min47, wind47, pressure47, humidity47, desc47, icon47 = fcst.day_4[6]['main']['temp'],fcst.day_4[6]['main']['temp_max'],fcst.day_4[6]['main']['temp_min'], fcst.day_4[6]['wind']['speed'],fcst.day_4[6]['main']['pressure'],fcst.day_4[6]['main']['humidity'],fcst.day_4[6]['weather'][0]['description'],fcst.day_4[6]['weather'][0]['icon']
     temp48, max48, min48, wind48, pressure48, humidity48, desc48, icon48 = fcst.day_4[7]['main']['temp'],fcst.day_4[7]['main']['temp_max'],fcst.day_4[7]['main']['temp_min'], fcst.day_4[7]['wind']['speed'],fcst.day_4[7]['main']['pressure'],fcst.day_4[7]['main']['humidity'],fcst.day_4[7]['weather'][0]['description'],fcst.day_4[7]['weather'][0]['icon']
 
-    day5 = DayOfWeek(wd + 4)
-    temp51, max51, min51, wind51, pressure51, humidity51, desc51, icon51 = fcst.day_5[0]['main']['temp'],fcst.day_5[0]['main']['temp_max'],fcst.day_5[0]['main']['temp_min'], fcst.day_5[0]['wind']['speed'],fcst.day_5[0]['main']['pressure'],fcst.day_5[0]['main']['humidity'],fcst.day_5[0]['weather'][0]['description'],fcst.day_5[0]['weather'][0]['icon']
-    temp52, max52, min52, wind52, pressure52, humidity52, desc52, icon52 = fcst.day_5[1]['main']['temp'],fcst.day_5[1]['main']['temp_max'],fcst.day_5[1]['main']['temp_min'], fcst.day_5[1]['wind']['speed'],fcst.day_5[1]['main']['pressure'],fcst.day_5[1]['main']['humidity'],fcst.day_5[1]['weather'][0]['description'],fcst.day_5[1]['weather'][0]['icon']
-    temp53, max53, min53, wind53, pressure53, humidity53, desc53, icon53 = fcst.day_5[2]['main']['temp'],fcst.day_5[2]['main']['temp_max'],fcst.day_5[2]['main']['temp_min'], fcst.day_5[2]['wind']['speed'],fcst.day_5[2]['main']['pressure'],fcst.day_5[2]['main']['humidity'],fcst.day_5[2]['weather'][0]['description'],fcst.day_5[2]['weather'][0]['icon']
-    temp54, max54, min54, wind54, pressure54, humidity54, desc54, icon54 = fcst.day_5[3]['main']['temp'],fcst.day_5[3]['main']['temp_max'],fcst.day_5[3]['main']['temp_min'], fcst.day_5[3]['wind']['speed'],fcst.day_5[3]['main']['pressure'],fcst.day_5[3]['main']['humidity'],fcst.day_5[3]['weather'][0]['description'],fcst.day_5[3]['weather'][0]['icon']
-    temp55, max55, min55, wind55, pressure55, humidity55, desc55, icon55 = fcst.day_5[4]['main']['temp'],fcst.day_5[4]['main']['temp_max'],fcst.day_5[4]['main']['temp_min'], fcst.day_5[4]['wind']['speed'],fcst.day_5[4]['main']['pressure'],fcst.day_5[4]['main']['humidity'],fcst.day_5[4]['weather'][0]['description'],fcst.day_5[4]['weather'][0]['icon']
-    temp56, max56, min56, wind56, pressure56, humidity56, desc56, icon56 = fcst.day_5[5]['main']['temp'],fcst.day_5[5]['main']['temp_max'],fcst.day_5[5]['main']['temp_min'], fcst.day_5[5]['wind']['speed'],fcst.day_5[5]['main']['pressure'],fcst.day_5[5]['main']['humidity'],fcst.day_5[5]['weather'][0]['description'],fcst.day_5[5]['weather'][0]['icon']
-    temp57, max57, min57, wind57, pressure57, humidity57, desc57, icon57 = fcst.day_5[6]['main']['temp'],fcst.day_5[6]['main']['temp_max'],fcst.day_5[6]['main']['temp_min'], fcst.day_5[6]['wind']['speed'],fcst.day_5[6]['main']['pressure'],fcst.day_5[6]['main']['humidity'],fcst.day_5[6]['weather'][0]['description'],fcst.day_5[6]['weather'][0]['icon']
-    temp58, max58, min58, wind58, pressure58, humidity58, desc58, icon58 = fcst.day_5[7]['main']['temp'],fcst.day_5[7]['main']['temp_max'],fcst.day_5[7]['main']['temp_min'], fcst.day_5[7]['wind']['speed'],fcst.day_5[7]['main']['pressure'],fcst.day_5[7]['main']['humidity'],fcst.day_5[7]['weather'][0]['description'],fcst.day_5[7]['weather'][0]['icon']
+    locTime = LocalTime(lat,lon)
+    locTime.calculateLocalTime()
+    offset = locTime.dstOffset+locTime.rawOffset
 
     return render(request, 'city/weather.html', locals())
 
@@ -145,7 +145,6 @@ def find_city(request):
     else:
         form = NameForm()
     return render(request, 'city/find_city.html', locals())
-
 
 def signup(request):
     if request.method == 'POST':
