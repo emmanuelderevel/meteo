@@ -4,11 +4,10 @@ class Forecast:
     def __init__(self, city_id):
         self.city_id=city_id
         #self.day={}
-        self.day_1={}
+        self.day_1 = {}
         self.day_2 = {}
         self.day_3 = {}
         self.day_4 = {}
-        self.day_5 = {}
 
 
 
@@ -19,8 +18,13 @@ class Forecast:
         j = r.json()
         print(j)
         l=j['list']
-        self.day_5 = l[-8:]
-        l=l[:-8]
+        print(l)
+        dt=l[len(l)-1]['dt_txt'][11:]
+        print(dt)
+        while dt!='21:00:00':
+            del l[-1]
+            dt = l[len(l) - 1]['dt_txt'][11:]
+            print(dt)
         self.day_4 = l[-8:]
         l=l[:-8]
         self.day_3 = l[-8:]
@@ -28,14 +32,14 @@ class Forecast:
         self.day_2 = l[-8:]
         l=l[:-8]
         self.day_1 = l[-8:]
-        l=l[:-8]
+
 
 
 if __name__=='__main__':
     f1=Forecast(2362344)
     f1.retrieve_forecast()
-    print(f1.day_5[1])
     print(f1.day_4)
     print(f1.day_3)
     print(f1.day_2)
     print(f1.day_1)
+
