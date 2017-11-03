@@ -3,4 +3,5 @@ meteo/.idea/
 
 __pycache__/
 city/__pycache__
+meteo/__pycache__
 *.pyc
