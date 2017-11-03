@@ -137,7 +137,7 @@ def find_city(request):
             data = json.load(json_data)
             L=[]
             for i in range(0,len(data)):
-                if data[i]['name']==nom_ville:
+                if data[i]['name'].upper()==nom_ville.upper():
                     L=L+[data[i]]
             return render(request, 'city/results.html', locals())
 
