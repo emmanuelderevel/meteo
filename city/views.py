@@ -146,7 +146,7 @@ def find_city(request):
         form = NameForm()
     return render(request, 'city/find_city.html', locals())
 
-def signup(request):
+def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -154,12 +154,12 @@ def signup(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = User.objects.create_user(username, email, password)
-            return render(request, 'city/alerts.html', locals())
+            return HttpResponseRedirect('alerts')
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SignUpForm()
-    return render(request, 'city/signup.html', locals())
+    return render(request, 'city/sign_up.html', locals())
 
 
 def connexion(request):
