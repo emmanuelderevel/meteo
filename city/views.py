@@ -170,7 +170,7 @@ def connexion(request):
         if form.is_valid():
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user = authenticate(username=username, password=password)  # Nous vérifions si les données sont correctes
+            user = authenticate(username=username, password=password)
             if user:  # Si l'objet renvoyé n'est pas None
                 login(request, user)
                 next = request.POST.get('next')
