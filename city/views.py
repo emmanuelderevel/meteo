@@ -26,6 +26,7 @@ def DayOfWeek(wd):
     if wd == 5: return 'Friday'
     if wd == 6: return 'Saturday'
     if wd == 7: return 'Sunday'
+
 def MonofYear(month_nbr):
     if month_nbr == 1 : return 'January'
     if month_nbr == 2: return 'February'
