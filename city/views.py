@@ -8,6 +8,7 @@ from datetime import datetime
 from .forecast import Forecast
 from .CityPic import Img
 from .LocalTime import LocalTime
+from .alerts import find_rain
 
 
 #Import Login functions
@@ -102,31 +103,8 @@ def weather(request, city_id):
     return render(request, 'city/weather.html', locals())
 
 
-#Rechercher l'id d'une ville à partir de son nom
-def get_city_id(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            nom_ville=form.cleaned_data['city_name']
-            json_data=open('cities.json')
-            data = json.load(json_data)
-            L=[]
-            for i in range(0,len(data)):
-                if data[i]['name']==nom_ville:
-                    L=L+[data[i]]
-            return render(request, 'city/results.html', locals())
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = NameForm()
-
-    return render(request, 'city/find_city.html', {'form': form})
-
-
 def find_city(request):
+    #alert_list=find_rain()
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NameForm(request.POST)
@@ -190,3 +168,4 @@ def alerts(request):
 def sign_out(request):
     logout(request)
     return redirect('find_city')
+
