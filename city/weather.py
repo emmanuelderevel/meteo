@@ -31,6 +31,6 @@ class Weather():
 
 
 if __name__ == '__main__':
-    p=Weather(4180439)
+    p=Weather(6058560)
     p.retrieveWeathInfo()
     print(p.dict)
