@@ -20,13 +20,14 @@ class Forecast:
         l=j['list']
         print(len(l))
 
+        dt0 = str(datetime.strptime(l[0]['dt_txt'][:10],'%Y-%m-%d'))[:10]
         dt1 = str(datetime.strptime(l[0]['dt_txt'][:10],'%Y-%m-%d') + dtime.timedelta(1))[:10]
         print(dt1)
         dt2 = str(datetime.strptime(l[0]['dt_txt'][:10], '%Y-%m-%d') + dtime.timedelta(2))[:10]
         dt3 = str(datetime.strptime(l[0]['dt_txt'][:10], '%Y-%m-%d') + dtime.timedelta(3))[:10]
         dt4 = str(datetime.strptime(l[0]['dt_txt'][:10], '%Y-%m-%d') + dtime.timedelta(4))[:10]
         print(dt4)
-        self.dt = [dt1,dt2,dt3,dt4]
+        self.dt = [dt1,dt2,dt3,dt4,dt0]
 
         day1=[]
         for i in range(len(l)):

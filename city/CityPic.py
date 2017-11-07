@@ -20,8 +20,8 @@ class Img():
         self.width = k['results'][r]['photos'][0]['width']
 
 
-#if __name__ == '__main__':
-#    p=Img(11.18,-4.3)
-#    p.retrieveImgRef()
-#    print(p.reference)
-#    print(p.width)
+if __name__ == '__main__':
+    p=Img(42.98,-81.23)
+    p.retrieveImgRef()
+    print(p.reference)
+    print(p.width)

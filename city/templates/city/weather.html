@@ -245,7 +245,7 @@ el.onclick=calcTime({{offset}})
         </div>
 
       </div>
-      <div id='calcTimea'>Time at {{city}}: </div>
+      <div style="background-color: #777777;opacity: 0.6;width: 275px;height: auto"> {{city}}: {{ daystr }}, {{ monthstr }} {{ day_nbr }}, {{ year_nbr }}</div>
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
@@ -299,10 +299,10 @@ function calcTime(offset) {
   </section>
 
   <section>
-    <table style="background-color:black;opacity:0.6;color:white;float: center;">
+    <table >
       <caption style="font-size:25px;bold"><br /><br /><br /><br /><br /><br /><br /><br /><b>Forecast<br /></caption>
 
-        <tbody> <!-- Corps du tableau -->
+        <tbody style="background-color:black;opacity:0.6;float: center;"> <!-- Corps du tableau -->
           <tr>
             <td>{{day1}}
             <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25"></img>
