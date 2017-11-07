@@ -109,7 +109,7 @@ def weather(request, city_id):
 
 
 def find_city(request):
-    #alert_list=find_rain()
+    alert_list=find_rain()
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NameForm(request.POST)
