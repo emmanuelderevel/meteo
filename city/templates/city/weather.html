@@ -243,13 +243,13 @@
 
 <!-- Content -->
   <div>
-  <br /><br /><h1 style="color:white;float: center;"><span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Weather at {{city}}</span><br/><br/></h1>
+  <br /><br /><h1 style="color:white;float: center;"><span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Weather at {{city}}, {{ country }}</span><br/><br/></h1>
 
   <section class="weather-card C(#fff) M(10px) Pos(a) B(0) Start(0) End(0)" data-type="temperature" data-reactid="21">
     <div class="container">
     <div class="forecast-container">
     <div class="today forecast">
-    <div class="forecast-header">
+    <div class="forecast-header" style="font-weight: bold">
       <div class="day">{{ daystr }}</div>
       <div class="date">{{ monthstr }} {{ day_nbr }}</div>
     </div> <!-- .forecast-header -->
@@ -361,18 +361,19 @@ function calcTime(offset) {
 
     requestAnimationFrame(updateclock)
 </script>
-  </section>
-  <section style="float:right">
+      <section style="float:right">
     <form action="{% url 'alerts' %}">
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><button class="w3-button w3-red w3-section" type="submit">SUSCRIBE</button>
     </form>
+  </section>
+
   </section>
 
   <section>
     <table style="margin-left: 0px">
       <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><b><br /></caption>
 
-        <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;"> <!-- Corps du tableau -->
+        <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;text-align: center;font-weight: bold"> <!-- Corps du tableau -->
           <tr>
             <td>{{day1}}
             <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25"></img>

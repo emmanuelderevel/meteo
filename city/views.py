@@ -60,6 +60,7 @@ def weather(request, city_id):
     pressure=weather1.dict['pressure']
     humidity=weather1.dict['humidity']
     wind=weather1.dict['wind']
+    country=weather1.dict['country']
 
 
     img=Img(lat,lon)
