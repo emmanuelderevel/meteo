@@ -13,8 +13,8 @@
     }
     .outer_face {
         position: relative;
-        width: 250px;
-        height: 250px;
+        width: 300px;
+        height: 300px;
         border-radius: 250px;
         background: white;
         box-shadow: inset 0 0 10px gray;
@@ -146,11 +146,11 @@
     }
     .container {
         display: inline-block;
-        width: 450px;
+        width: 50%;
         height: 75px;
     }
     .forecast-container {
-  background: #262936;
+  background: black;
   display: table;
   table-layout: fixed;
   width: 100%;
@@ -362,17 +362,17 @@ function calcTime(offset) {
     requestAnimationFrame(updateclock)
 </script>
   </section>
-  <section style="float:left">
+  <section style="float:right">
     <form action="{% url 'alerts' %}">
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><button class="w3-button w3-red w3-left w3-section" type="submit">SUSCRIBE</button>
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><button class="w3-button w3-red w3-section" type="submit">SUSCRIBE</button>
     </form>
   </section>
 
   <section>
-    <table style="margin-left: 35%;margin-right: 50%">
+    <table style="margin-left: 0px">
       <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><b><br /></caption>
 
-        <tbody style="background-color:black;opacity:0.8;float: center"> <!-- Corps du tableau -->
+        <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;"> <!-- Corps du tableau -->
           <tr>
             <td>{{day1}}
             <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25"></img>
