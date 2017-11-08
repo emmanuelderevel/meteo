@@ -17,7 +17,6 @@ body, html {
 
 .w3-wide {letter-spacing: 10px;}
 .w3-hover-opacity {cursor: pointer;}
-<<<<<<< .merge_file_E0txoY
 
 body.weather {
 background-image: url(https://maps.googleapis.com/maps/api/place/photo?maxwidth=1024&photoreference={{reference}}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ);
@@ -30,5 +29,3 @@ color: white
 table{
 color:white
 }
-=======
->>>>>>> .merge_file_eQjTMI
