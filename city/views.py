@@ -45,6 +45,7 @@ def MonofYear(month_nbr):
     if month_nbr == 10: return 'October'
     if month_nbr == 11: return 'November'
     if month_nbr == 12: return 'December'
+
 #Afficher les données météo à partir de l'id de la ville
 def weather(request, city_id):
     user=request.user
@@ -66,12 +67,15 @@ def weather(request, city_id):
     pressure=weather1.dict['pressure']
     humidity=weather1.dict['humidity']
     wind=weather1.dict['wind']
+    country=weather1.dict['country']
 
 
     img=Img(lat,lon)
     img.retrieveImgRef()
-    reference=img.reference
-    width=int(img.width)
+    if img.error=='n':
+        bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.width,img.reference)
+    elif img.error=='y':
+        bgref='http://tof.canardpc.com/view/bd6bb2f8-cbef-4231-b219-7ab6a79866f5.jpg'
 
 
     fcst = Forecast(city_id)

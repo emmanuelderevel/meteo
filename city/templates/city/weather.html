@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Weather at {{city}}</title>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
@@ -12,8 +13,8 @@
     }
     .outer_face {
         position: relative;
-        width: 250px;
-        height: 250px;
+        width: 300px;
+        height: 300px;
         border-radius: 250px;
         background: white;
         box-shadow: inset 0 0 10px gray;
@@ -145,21 +146,92 @@
     }
     .container {
         display: inline-block;
-        width: 550px;
-        height: 100px;
+        width: 50%;
+        height: 75px;
     }
-
-    img:hover {zoom:120%;}
-
+    .forecast-container {
+  background: black;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+        opacity:0.8;}
+  .forecast-container .forecast {
+    display: table-cell;
+    }
+    .forecast-container .forecast:nth-child(even) {
+      background-color: #262936; }
+    @media screen and (max-width: 990px) {
+      .forecast-container .forecast {
+        display: block;
+        width: 16.6667%;
+        float: left; } }
+    .forecast-container .forecast.today {
+      width: 420px; }
+      .forecast-container .forecast.today .forecast-header {
+        *zoom: 1; }
+        .forecast-container .forecast.today .forecast-header:after {
+          content: " ";
+          clear: both;
+          display: block;
+          overflow: hidden;
+          height: 0; }
+        .forecast-container .forecast.today .forecast-header .day {
+          float: left; }
+        .forecast-container .forecast.today .forecast-header .date {
+          float: right; }
+      .forecast-container .forecast.today .forecast-content {
+        text-align: left;
+        padding-top: 30px;
+        padding-bottom: 30px; }
+      .forecast-container .forecast.today .location {
+        font-size: 18px;
+        font-size: 1.2857142857em;
+        font-weight: 400; }
+      .forecast-container .forecast.today .degree .num, .forecast-container .forecast.today .degree .forecast-icon {
+        display: inline-block;
+        vertical-align: middle; }
+      .forecast-container .forecast.today .degree .num {
+        font-size: 90px;
+        font-size: 6.4285714286rem;
+        margin-right: 30px; }
+      .forecast-container .forecast.today span {
+        margin-right: 20px; }
+        .forecast-container .forecast.today span img {
+          margin-right: 5px;
+          vertical-align: middle; }
+      @media screen and (max-width: 990px) {
+        .forecast-container .forecast.today {
+          display: block;
+          width: 100%; } }
+    .forecast-container .forecast .forecast-header {
+      background: rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      text-align: center;
+      font-weight: 400; }
+    .forecast-container .forecast .forecast-icon {
+      height: 50px; }
+    .forecast-container .forecast .forecast-content {
+      padding: 50px 20px 10px;
+      text-align: center; }
+      .forecast-container .forecast .forecast-content .forecast-icon {
+        margin-bottom: 20px; }
+      .forecast-container .forecast .forecast-content .degree {
+        font-size: 24px;
+        font-size: 1.7142857143em;
+        color: white;
+        font-weight: 700; }
+      .forecast-container .forecast .forecast-content small {
+        font-size: 16px;
+        font-size: 1.1428571429em; }
 </style>
 
-<body style="background-image: url(https://maps.googleapis.com/maps/api/place/photo?maxwidth=1024&photoreference={{reference}}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ);
-background-attachment: fixed;
-background-size: cover;">
+<body style="background-image: url({{ bgref }});background-attachment: fixed;background-size: cover">
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-card w3-black" style="padding:5px;opacity:0.6;" id="myNavbar">
+  <div class="w3-bar w3-card w3-black" style="padding:5px;opacity:0.9;" id="myNavbar">
     <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
       <i class="fa fa-bars"></i>
     </a>
@@ -171,43 +243,42 @@ background-size: cover;">
 
 <!-- Content -->
   <div>
-  <br /><br /><h1 style="color:white;float: center;">Current weather at {{city}}</h1>
+  <br /><br /><h1 style="color:white;float: center;"><span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Weather at {{city}}, {{ country }}</span><br/><br/></h1>
 
   <section class="weather-card C(#fff) M(10px) Pos(a) B(0) Start(0) End(0)" data-type="temperature" data-reactid="21">
     <div class="container">
-    <div class="temperature Fz(14px) Tsh($temperature-text-shadow)" data-reactid="22" style="background-color:black;opacity:0.4;color:white;float: left;">
-      <div class="My(2px)" data-reactid="23">
-        <span data-code="39" class="Va(m)" data-reactid="24">
-          <br /><br /><img alt=" {{description}}" height="75" title=" {{description}}" width="75" class=" " src="http://openweathermap.org/img/w/{{icon}}.png" data-reactid="25">
-        </img>
-        </span>
-        <span style="font-size:25px;font-weight:bold">{{description}}</span>
-              </div>
-        <span>uv: {{ uv_value }}, Wind: {{ wind }} m/s<br/></span>
-        <span>Humidity: {{ humidity }}%, Pressure: {{ pressure }} hPa<br/></span>
-      <br />
-      <div class="high-low My(2px) Fz(1.2em)--sm Fz(1.6em) Trsdu(.3s)" data-reactid="27">
+    <div class="forecast-container">
+    <div class="today forecast">
+    <div class="forecast-header" style="font-weight: bold">
+      <div class="day">{{ daystr }}</div>
+      <div class="date">{{ monthstr }} {{ day_nbr }}</div>
+    </div> <!-- .forecast-header -->
+    <div class="forecast-content">
+      <div class="maxmin">
         <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-up" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
           <path d="M13.764 18.75c-.792.772-.808 2.037-.04 2.828.772.792 2.038.81 2.83.04l5.678-5.526v23.59h4v-23.59l5.68 5.525c.79.77 2.058.753 2.827-.04.377-.388.565-.89.565-1.394 0-.52-.202-1.042-.605-1.434L24.23 8.566 13.763 18.75z">
           </path>
         </svg>
         <span class="Va(m) Px(6px)" data-reactid="29">{{max}}°
-        </span>
-        <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-down" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
-          <path d="M34.7 29.5c.793-.773.81-2.038.04-2.83-.77-.79-2.037-.81-2.83-.038l-5.677 5.525V8.567h-4v23.59l-5.68-5.525c-.79-.77-2.058-.753-2.827.04-.378.388-.566.89-.566 1.394 0 .52.202 1.042.605 1.434l10.472 10.183L34.7 29.5z">
-          </path>
-        </svg>
-        <span class="Va(m) Px(6px)" data-reactid="33">{{min}}°
-        </span>
-      </div>
-      <br />
-      <div class="now Fz(8em)--sm Fz(10em) Lh(0.9em) Fw(100) My(2px) Trsdu(.3s)" data-reactid="36">
-        <span class="Va(t)" data-reactid="37" style="font-size:85px;font-weight:bold">{{temp}}</span>
-        <span class="Va(t) Fz(.7em) Lh(1em)" data-reactid="38" style="font-size:35px">°</span>
-        <span class="unit Tt(c) Fz(.2em) Fw(200) O(n) P(6px) Va(t) D(b) Lh(1em) Tsh($temperature-text-shadow) M(a) C(#fff)" data-reactid="40" style="font-size:35px">C</span>
+          <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-down" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
+            <path d="M34.7 29.5c.793-.773.81-2.038.04-2.83-.77-.79-2.037-.81-2.83-.038l-5.677 5.525V8.567h-4v23.59l-5.68-5.525c-.79-.77-2.058-.753-2.827.04-.378.388-.566.89-.566 1.394 0 .52.202 1.042.605 1.434l10.472 10.183L34.7 29.5z">
+            </path>
+          </svg>
+          <span class="Va(m) Px(6px)" data-reactid="33">{{min}}°
+          </div>
+          <div class="degree">
+            <div class="num">{{ temp }}<sup>o</sup>C</div>
+            <div class="forecast-icon">
+              <img alt=" {{description}}" height="75" title=" {{description}}" width="90" class=" " src="http://openweathermap.org/img/w/{{icon}}.png" data-reactid="25">
+            </div>
+          </div>
+          <span><img width="46px" height="42px" src=https://cdn0.iconfinder.com/data/icons/wthr-color/32/693754-humidity-low-512.png alt="">{{ humidity }}%</span>
+          <span><img width="46px" height="42px" src=https://cdn2.iconfinder.com/data/icons/lovely-weather-icons/32/wind1-512.png alt="">{{ wind }} m/s</span>
+          <span><img width="46px" height="42px" src=https://cdn1.iconfinder.com/data/icons/weather-cool-vector-2/128/59-512.png alt="">{{ uv_value }}</span>
+        </div>
       </div>
     </div>
-  </div>
+    </div>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script type="text/javascript">
   // given the city's UTC offset
@@ -245,7 +316,6 @@ el.onclick=calcTime({{offset}})
         </div>
 
       </div>
-      <div style="background-color: #777777;opacity: 0.6;width: 275px;height: auto"> {{city}}: {{ daystr }}, {{ monthstr }} {{ day_nbr }}, {{ year_nbr }}</div>
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
@@ -291,16 +361,18 @@ function calcTime(offset) {
 
     requestAnimationFrame(updateclock)
 </script>
+<<<<<<< HEAD
   </section>
   <section style="float:left">
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id %}"><button class="w3-button w3-red w3-left w3-section">SUSCRIBE</button></a>
+
   </section>
 
   <section>
-    <table >
-      <caption style="font-size:25px;bold"><br /><br /><br /><br /><br /><br /><br /><br /><b>Forecast<br /></caption>
+    <table style="margin-left: 0px">
+      <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><b><br /></caption>
 
-        <tbody style="background-color:black;opacity:0.6;float: center;"> <!-- Corps du tableau -->
+        <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;text-align: center;font-weight: bold"> <!-- Corps du tableau -->
           <tr>
             <td>{{day1}}
             <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25"></img>

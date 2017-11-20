@@ -13,6 +13,7 @@ class Weather():
                'id={}&units=metric&APPID=955716c6c3b27005023580d9021147ba'.format(self.city_id)
         client = requests.get(html)
         j = client.json()
+        print(j)
         self.dict['temp'] = j['main']['temp']
         self.dict['temp_max'] = j['main']['temp_max']
         self.dict['temp_min'] = j['main']['temp_min']
@@ -25,6 +26,7 @@ class Weather():
         self.dict['city'] = j['name']
         self.dict['lon'] = j['coord']['lon']
         self.dict['lat'] = j['coord']['lat']
+        self.dict['country'] = j['sys']['country']
 
     def __str__(self):
         return 'Informations météorologiques de la ville de Londre : {}'.format(self.dict)
