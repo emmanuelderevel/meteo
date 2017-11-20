@@ -22,7 +22,7 @@ from django.core.urlresolvers import reverse
 #Alert model
 from city.models import Alert
 
-
+# Method to determine day of week through day number
 def DayOfWeek(wd):
     if wd == 1: return 'Monday'
     if wd == 2: return 'Tuesday'
@@ -32,6 +32,7 @@ def DayOfWeek(wd):
     if wd == 6: return 'Saturday'
     if wd == 7: return 'Sunday'
 
+# Method to determine month of the year from month number
 def MonofYear(month_nbr):
     if month_nbr == 1 : return 'January'
     if month_nbr == 2: return 'February'
@@ -46,7 +47,7 @@ def MonofYear(month_nbr):
     if month_nbr == 11: return 'November'
     if month_nbr == 12: return 'December'
 
-#Afficher les données météo à partir de l'id de la ville
+#Display weather informations (current weather, forecast,...) for a city through city id
 def weather(request, city_id):
     user=request.user
     if user.is_authenticated:
@@ -56,27 +57,32 @@ def weather(request, city_id):
     weather1.retrieveWeathInfo()
 
     city_id=city_id
-    temp=weather1.dict['temp']
-    max=weather1.dict['temp_max']
-    min=weather1.dict['temp_min']
-    city=weather1.dict['city']
-    icon=weather1.dict['icon']
-    description=weather1.dict['main']
-    lon=int(weather1.dict['lon'])
-    lat=int(weather1.dict['lat'])
-    pressure=weather1.dict['pressure']
-    humidity=weather1.dict['humidity']
-    wind=weather1.dict['wind']
-    country=weather1.dict['country']
+    temp=weather1.gettemp
+    max=weather1.gettemp_max
+    min=weather1.gettemp_min
+    city = weather1.getcity()
+    icon = weather1.geticon()
+    description = weather1.getdescription()
+    lon = int(weather1.getlon())
+    lat = int(weather1.getlat())
+    pressure = weather1.getpressure()
+    humidity = weather1.gethumidity()
+    wind = weather1.getwind()
+    country = weather1.getcountry()
 
 
     img=Img(lat,lon)
     img.retrieveImgRef()
     if img.error=='n':
-        bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.width,img.reference)
+        try:
+            bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.width,img.reference)
+        except ConnectionError:
+            print("No connexion available")
     elif img.error=='y':
-        bgref='http://tof.canardpc.com/view/bd6bb2f8-cbef-4231-b219-7ab6a79866f5.jpg'
-
+        try:
+            bgref='http://tof.canardpc.com/view/bd6bb2f8-cbef-4231-b219-7ab6a79866f5.jpg'
+        except ConnectionError:
+            print("No connexion available")
 
     fcst = Forecast(city_id)
     fcst.retrieve_forecast()

@@ -236,8 +236,13 @@
       <i class="fa fa-bars"></i>
     </a>
     <a href="{% url 'find_city' %}" class="w3-bar-item w3-button"><i class="fa fa-search"></i>  FIND CITY</a>
-    <a href="{% url 'alerts' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i>  MY ALERTS</a>
-    <a href="{% url 'sign_out' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-sign-out"></i>  SIGN OUT</a>
+    <a href="{% url 'alerts' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-gears"></i>  MY ALERTS</a>
+    {% if user.is_authenticated %}
+    <a class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-umbrella"></i>Rain alert ! {{alert_list}}</a>
+    <a href="{% url 'sign_out' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-out"></i>  SIGN OUT</a>
+    {% else %}
+    <a href="{% url 'sign_in' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-in"></i>  SIGN IN</a>
+    {% endif %}
   </div>
 </div>
 
@@ -361,10 +366,9 @@ function calcTime(offset) {
 
     requestAnimationFrame(updateclock)
 </script>
-<<<<<<< HEAD
   </section>
-  <section style="float:left">
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id %}"><button class="w3-button w3-red w3-left w3-section">SUSCRIBE</button></a>
+  <section style="float:right">
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
 
   </section>
 

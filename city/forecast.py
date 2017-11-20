@@ -2,6 +2,7 @@ import requests
 from _datetime import datetime
 import datetime as dtime
 
+# This class retrieves weather forecast informations of a city through city id
 class Forecast:
     def __init__(self, city_id):
         self.city_id=city_id
@@ -10,68 +11,77 @@ class Forecast:
         self.list = list()
 
 
-
-
+    # Method that retrieves weather forecast informations
     def retrieve_forecast(self):
         r = requests.get('http://api.openweathermap.org/data/2.5/'
                          'forecast?id={}&units=metric&APPID=8bb2f275ae9f1d35a616a1454f5dc8c5'.format(self.city_id))
         j = r.json()
-        print(j)
         l=j['list']
-        print(len(l))
 
+        # Retrieves dates for comparison purpose
         dt0 = str(datetime.strptime(l[0]['dt_txt'][:10],'%Y-%m-%d'))[:10]
         dt1 = str(datetime.strptime(l[0]['dt_txt'][:10],'%Y-%m-%d') + dtime.timedelta(1))[:10]
-        print(dt1)
         dt2 = str(datetime.strptime(l[0]['dt_txt'][:10], '%Y-%m-%d') + dtime.timedelta(2))[:10]
         dt3 = str(datetime.strptime(l[0]['dt_txt'][:10], '%Y-%m-%d') + dtime.timedelta(3))[:10]
         dt4 = str(datetime.strptime(l[0]['dt_txt'][:10], '%Y-%m-%d') + dtime.timedelta(4))[:10]
-        print(dt4)
         self.dt = [dt1,dt2,dt3,dt4,dt0]
 
+        # Retrieve tomorrow forecast informations
         day1=[]
         for i in range(len(l)):
             if l[i]['dt_txt'][:10]==dt1:
-                print(l[i]['dt_txt'][:10])
                 day1 += [l[i]]
+
+        # Retrieve forecast informations in 2 days
         day2=[]
         for i in range(len(l)):
             if l[i]['dt_txt'][:10]==dt2:
-                print(l[i]['dt_txt'][:10])
                 day2 += [l[i]]
+
+        # Retrieve forecast informations in 3 days
         day3=[]
         for i in range(len(l)):
             if l[i]['dt_txt'][:10]==dt3:
-                print(l[i]['dt_txt'][:10])
                 day3 +=[l[i]]
+
+        # Retrieve forecast informations in 4 days
         day4=[]
         for i in range(len(l)):
             if l[i]['dt_txt'][:10]==dt4:
-                print(l[i]['dt_txt'][:10])
                 day4 +=[l[i]]
 
         self.days=[day1,day2,day3,day4]
 
+        # since the api does not garantie regular informations per day,
+        # we compute aggregate parameters. For example, we calculate
+        # the average wind speed and humidity since the api does not garantie
+        # the wind speed and the humidity each 3h per day as promise.
         for i in range(len(self.days)):
-
+            # Retrieve the maximum temperature
             temp_max = self.days[i][0]['main']['temp_max']
-            temp_min = self.days[i][0]['main']['temp_min']
             for j in range(len(self.days[i])):
                 if self.days[i][j]['main']['temp_max'] >= temp_max:
                     temp_max = self.days[i][j]['main']['temp_max']
+
+            # Retrieve the minimum temperature
+            temp_min = self.days[i][0]['main']['temp_min']
             for j in range(len(self.days[i])):
                 if self.days[i][j]['main']['temp_min'] <= temp_min:
                     temp_min = self.days[i][j]['main']['temp_min']
+
+            # Compute the average wind speed
             wind = 0
             for j in range(len(self.days[i])):
                 wind+=self.days[i][j]['wind']['speed']
+            wind=round(wind / len(self.days[i]), 2)
+
+            # Compute the average humidity
             pressure = 0
             for j in range(len(self.days[i])):
                 pressure += self.days[i][j]['main']['pressure']
+            pressure = round(pressure / len(self.days[i]), 2)
 
-            self.list += [[temp_max,temp_min,round(wind / len(self.days[i]),2),round(pressure / len(self.days[i]),2),self.days[i][len(self.days[i])//2]['weather'][0]['icon'],self.days[i][len(self.days[i])//2]['weather'][0]['description']]]
-
-
+            self.list += [[temp_max,temp_min,wind,pressure,self.days[i][len(self.days[i])//2]['weather'][0]['icon'],self.days[i][len(self.days[i])//2]['weather'][0]['description']]]
 
 
 if __name__=='__main__':
