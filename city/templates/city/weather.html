@@ -293,9 +293,7 @@ function calcTime(offset) {
 </script>
   </section>
   <section style="float:left">
-    <form action="{% url 'alerts' %}">
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><button class="w3-button w3-red w3-left w3-section" type="submit">SUSCRIBE</button>
-    </form>
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id %}"><button class="w3-button w3-red w3-left w3-section">SUSCRIBE</button></a>
   </section>
 
   <section>

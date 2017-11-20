@@ -19,6 +19,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
+#Alert model
+from city.models import Alert
+
 
 def DayOfWeek(wd):
     if wd == 1: return 'Monday'
@@ -44,10 +47,14 @@ def MonofYear(month_nbr):
     if month_nbr == 12: return 'December'
 #Afficher les données météo à partir de l'id de la ville
 def weather(request, city_id):
+    user=request.user
+    if user.is_authenticated:
+        alert_list=find_rain(user)
 
     weather1=Weather(city_id)
     weather1.retrieveWeathInfo()
 
+    city_id=city_id
     temp=weather1.dict['temp']
     max=weather1.dict['temp_max']
     min=weather1.dict['temp_min']
@@ -110,7 +117,9 @@ def weather(request, city_id):
 
 
 def find_city(request):
-    alert_list=find_rain()
+    user=request.user
+    if user.is_authenticated:
+        alert_list=find_rain(user)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NameForm(request.POST)
@@ -129,6 +138,7 @@ def find_city(request):
     else:
         form = NameForm()
     return render(request, 'city/find_city.html', locals())
+
 
 def sign_up(request):
     if request.method == 'POST':
@@ -168,6 +178,11 @@ def connexion(request):
 
 @login_required
 def alerts(request):
+    user=request.user
+    alert_list=find_rain(user)
+    registred_alerts=[]
+    for alert in Alert.objects.filter(user_id=request.user):
+        registred_alerts=registred_alerts+[alert]
     return render(request, 'city/alerts.html', locals())
 
 
@@ -175,3 +190,17 @@ def sign_out(request):
     logout(request)
     return redirect('find_city')
 
+def delete_alert(request, alert_id):
+    alert=Alert.objects.get(id=alert_id)
+    alert.delete()
+    return redirect('alerts')
+
+def create_alert(request, city_id):
+    user=request.user
+    alert=Alert(user_id=user, city_id=city_id)
+    alert.save()
+    return redirect('alerts')
+
+@login_required
+def sign_in(request):
+    return redirect('find_city')
