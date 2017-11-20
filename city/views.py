@@ -72,12 +72,12 @@ def weather(request, city_id):
 
     img=Img(lat,lon)
     img.retrieveImgRef()
-    if img.error=='n':
+    if img.geterror()=='n':
         try:
-            bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.width,img.reference)
+            bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.getwidth,img.getreference)
         except ConnectionError:
             print("No connexion available")
-    elif img.error=='y':
+    elif img.geterror()=='y':
         try:
             bgref='http://tof.canardpc.com/view/bd6bb2f8-cbef-4231-b219-7ab6a79866f5.jpg'
         except ConnectionError:
