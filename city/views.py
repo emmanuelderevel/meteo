@@ -8,7 +8,7 @@ from datetime import datetime
 from .forecast import Forecast
 from .CityPic import Img
 from .LocalTime import LocalTime
-from .alerts import find_rain
+from .alerts import all_alerts_display
 from .UV import UV
 
 
@@ -50,8 +50,7 @@ def MonofYear(month_nbr):
 def weather(request, city_id):
     user=request.user
     if user.is_authenticated:
-        alert_list=find_rain(user)
-
+        alerts=all_alerts_display(user)
     weather1=Weather(city_id)
     weather1.retrieveWeathInfo()
 
@@ -123,7 +122,7 @@ def weather(request, city_id):
 def find_city(request):
     user=request.user
     if user.is_authenticated:
-        alert_list=find_rain(user)
+        alerts=all_alerts_display(user)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NameForm(request.POST)
@@ -183,7 +182,7 @@ def connexion(request):
 @login_required
 def alerts(request):
     user=request.user
-    alert_list=find_rain(user)
+    alerts=all_alerts_display(user)
     registred_alerts=[]
     for alert in Alert.objects.filter(user_id=request.user):
         registred_alerts=registred_alerts+[alert]
