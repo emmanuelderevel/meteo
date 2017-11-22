@@ -20,98 +20,127 @@ class Weather():
         self._humidity=''
         self._pressure=''
 
-    def setcity_id(self,city_id):
-        self._city_id=city_id
-
-    def getcity_id(self):
+    @property
+    def city_id(self):
         return self._city_id
 
-    def getlon(self):
+    @city_id.setter
+    def city_id(self,city_id):
+        self._city_id=city_id
+
+    @property
+    def lon(self):
         return self._lon
 
-    def setlon(self,lon):
+    @lon.setter
+    def lon(self,lon):
         self._lon=lon
 
-    def getlat(self):
+    @property
+    def lat(self):
         return self._lat
 
-    def setlat(self,lat):
+    @lat.setter
+    def lat(self,lat):
         self._lat=lat
 
-    def gettemp(self):
+    @property
+    def temp(self):
         return self._temp
 
-    def settemp(self,temp):
+    @temp.setter
+    def temp(self,temp):
         self._temp=temp
 
-    def settemp_max(self,temp_max):
-        self._temp_max=temp_max
-
-    def gettemp_max(self):
+    @property
+    def temp_max(self):
         return self._temp_max
 
-    def settemp_min(self,temp_min):
-        self._temp_min=temp_min
+    @temp_max.setter
+    def temp_max(self,temp_max):
+        self._temp_max=temp_max
 
-    def gettemp_min(self):
+    @property
+    def temp_min(self):
         return self._temp_min
 
-    def setmain(self,main):
-        self._main=main
+    @temp_min.setter
+    def temp_min(self,temp_min):
+        self._temp_min=temp_min
 
-    def getmain(self):
+    @property
+    def main(self):
         return self._main
 
-    def seticon(self,icon):
-        self._icon=icon
+    @main.setter
+    def main(self,main):
+        self._main=main
 
-    def geticon(self):
+    @property
+    def icon(self):
         return self._icon
 
-    def setdescription(self,description):
-        self._description=description
+    @icon.setter
+    def icon(self,icon):
+        self._icon=icon
 
-    def getdescription(self):
+    @property
+    def description(self):
         return self._description
 
-    def setwind(self,wind):
-        self._wind=wind
+    @description.setter
+    def description(self,description):
+        self._description=description
 
-    def getwind(self):
+    @property
+    def wind(self):
         return self._wind
 
-    def setcountry(self,country):
-        self._country=country
+    @wind.setter
+    def wind(self,wind):
+        self._wind=wind
 
-    def getcountry(self):
+    @property
+    def country(self):
         return self._country
 
-    def setcity(self,city):
-        self._city=city
+    @country.setter
+    def country(self,country):
+        self._country=country
 
-    def getcity(self):
+    @property
+    def city(self):
         return self._city
 
-    def sethumidity(self,humidity):
-        self._humidity=humidity
+    @city.setter
+    def city(self,city):
+        self._city=city
 
-    def gethumidity(self):
+    @property
+    def humidity(self):
         return self._humidity
 
-    def setpressure(self,pressure):
+    @humidity.setter
+    def humidity(self,humidity):
+        self._humidity=humidity
+
+    @property
+    def pressure(self):
+        return self._pressure
+
+    @pressure.setter
+    def pressure(self,pressure):
         self._pressure=pressure
 
-    def getpressure(self):
-        return self._pressure
 
     def retrieveWeathInfo(self):
         try:
             html = 'http://api.openweathermap.org/data/2.5/weather?' \
-               'id={}&units=metric&APPID=955716c6c3b27005023580d9021147ba'.format(self.getcity_id())
+               'id={}&units=metric&APPID=955716c6c3b27005023580d9021147ba'.format(self.city_id)
             client = requests.get(html)
             j = client.json()
-            self.settemp(j['main']['temp'])
-            self.settemp_max(j['main']['temp_max'])
+            self.temp=j['main']['temp']
+            self.temp_max(j['main']['temp_max'])
             self.settemp_min(j['main']['temp_min'])
             self.setmain(j['weather'][0]['main'])
             self.seticon(j['weather'][0]['icon'])
