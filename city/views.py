@@ -53,32 +53,32 @@ def weather(request, city_id):
     user=request.user
     if user.is_authenticated:
         alerts=all_alerts_display(user)
-    weather1=Weather(city_id)
+    weather1=Weather(int(city_id))
     weather1.retrieveWeathInfo()
 
-    city_id=city_id
-    temp=weather1.gettemp
-    max=weather1.gettemp_max
-    min=weather1.gettemp_min
-    city = weather1.getcity()
-    icon = weather1.geticon()
-    description = weather1.getdescription()
-    lon = int(weather1.getlon())
-    lat = int(weather1.getlat())
-    pressure = weather1.getpressure()
-    humidity = weather1.gethumidity()
-    wind = weather1.getwind()
-    country = weather1.getcountry()
+    city_id = int(city_id)
+    temp=weather1.temp
+    max=weather1.temp_max
+    min=weather1.temp_min
+    city = weather1.city
+    icon = weather1.icon
+    description = weather1.description
+    lon = float(weather1.lon)
+    lat = float(weather1.lat)
+    pressure = float(weather1.pressure)
+    humidity = float(weather1.humidity)
+    wind = float(weather1.wind)
+    country = weather1.country
 
 
     img=Img(lat,lon)
     img.retrieveImgRef()
-    if img.geterror()=='n':
+    if img.error=='n':
         try:
-            bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.getwidth,img.getreference)
+            bgref='https://maps.googleapis.com/maps/api/place/photo?maxwidth={}&photoreference={}&key=AIzaSyDK1zU_jWE0pWRqIdyiFD2SIlX7xmxP9WQ'.format(img.width,img.reference)
         except ConnectionError:
             print("No connexion available")
-    elif img.geterror()=='y':
+    elif img.error=='y':
         try:
             bgref='http://tof.canardpc.com/view/bd6bb2f8-cbef-4231-b219-7ab6a79866f5.jpg'
         except ConnectionError:
@@ -87,36 +87,36 @@ def weather(request, city_id):
     fcst = Forecast(city_id)
     fcst.retrieve_forecast()
 
-    day = fcst.getdt()[4]
-    day_nbr=datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').day
-    month_nbr=datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').month
+    day = fcst.dt[4]
+    day_nbr=datetime.strptime(fcst.dt[4], '%Y-%m-%d').day
+    month_nbr=datetime.strptime(fcst.dt[4], '%Y-%m-%d').month
     monthstr=MonofYear(month_nbr)
-    year_nbr=datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').year
-    wd1 = datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').isoweekday()
+    year_nbr=datetime.strptime(fcst.dt[4], '%Y-%m-%d').year
+    wd1 = datetime.strptime(fcst.dt[4], '%Y-%m-%d').isoweekday()
     daystr = DayOfWeek(wd1)
 
-    d1 = fcst.getlist()[0]
-    wd1 = datetime.strptime(fcst.getdt()[0], '%Y-%m-%d').isoweekday()
+    d1 = fcst.list[0]
+    wd1 = datetime.strptime(fcst.dt[0], '%Y-%m-%d').isoweekday()
     day1 = DayOfWeek(wd1)
     max1, min1, wind1, pressure1, icon1, desc1 = d1[0],d1[1],d1[2],d1[3],d1[4],d1[5]
 
-    d2 = fcst.getlist()[1]
-    wd1 = datetime.strptime(fcst.getdt()[1], '%Y-%m-%d').isoweekday()
+    d2 = fcst.list[1]
+    wd1 = datetime.strptime(fcst.dt[1], '%Y-%m-%d').isoweekday()
     day2 = DayOfWeek(wd1)
     max2, min2, wind2, pressure2, icon2, desc2 = d2[0], d2[1], d2[2], d2[3], d2[4], d2[5]
 
-    d3 = fcst.getlist()[2]
-    wd1 = datetime.strptime(fcst.getdt()[2], '%Y-%m-%d').isoweekday()
+    d3 = fcst.list[2]
+    wd1 = datetime.strptime(fcst.dt[2], '%Y-%m-%d').isoweekday()
     day3 = DayOfWeek(wd1)
     max3, min3, wind3, pressure3, icon3, desc3 = d3[0], d3[1], d3[2], d3[3], d3[4], d3[5]
 
-    d4 = fcst.getlist()[3]
-    wd1 = datetime.strptime(fcst.getdt()[3], '%Y-%m-%d').isoweekday()
+    d4 = fcst.list[3]
+    wd1 = datetime.strptime(fcst.dt[3], '%Y-%m-%d').isoweekday()
     day4 = DayOfWeek(wd1)
     max4, min4, wind4, pressure4, icon4, desc4 = d4[0], d4[1], d4[2], d4[3], d4[4], d4[5]
 
 
-    locTime = LocalTime(float(lat),float(lon))
+    locTime = LocalTime(lat,lon)
     locTime.calculateLocalTime()
     offset = locTime.dstOffset+locTime.rawOffset
 
