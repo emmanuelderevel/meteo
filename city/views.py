@@ -10,6 +10,7 @@ from .CityPic import Img
 from .LocalTime import LocalTime
 from .alerts import all_alerts_display
 from .UV import UV
+from django.db import IntegrityError
 
 
 
@@ -124,7 +125,7 @@ def weather(request, city_id):
     uv_value=uv.value
     return render(request, 'city/weather.html', locals())
 
-
+#Search for a city
 def find_city(request):
     user=request.user
     if user.is_authenticated:
@@ -148,7 +149,35 @@ def find_city(request):
         form = NameForm()
     return render(request, 'city/find_city.html', locals())
 
+#Create Alert
+@login_required
+def create_alert(request, city_id, city):
+    error=False
+    try:
+        user=request.user
+        alert=Alert(user_id=user, city_id=city_id, city_name=city)
+        alert.save()
+    except IntegrityError:
+        error=True
+    return redirect('alerts')
 
+#Delete Alert
+def delete_alert(request, alert_id):
+    alert=Alert.objects.get(id=alert_id)
+    alert.delete()
+    return redirect('alerts')
+
+#Display all alerts registred for a user
+@login_required
+def alerts(request):
+    user=request.user
+    alerts=all_alerts_display(user)
+    registred_alerts=[]
+    for alert in Alert.objects.filter(user_id=request.user):
+        registred_alerts=registred_alerts+[alert]
+    return render(request, 'city/alerts.html', locals())
+
+# Sign Up
 def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -164,7 +193,7 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'city/sign_up.html', locals())
 
-
+#Sign in
 def connexion(request):
     error = False
     next = request.GET.get('next')
@@ -180,36 +209,17 @@ def connexion(request):
                 return HttpResponseRedirect(next)
             else: # sinon une erreur sera affichée
                 error = True
+                next = request.POST.get('next')
     else:
         form = ConnexionForm()
     return render(request, 'city/connexion.html', locals())
 
-
-@login_required
-def alerts(request):
-    user=request.user
-    alerts=all_alerts_display(user)
-    registred_alerts=[]
-    for alert in Alert.objects.filter(user_id=request.user):
-        registred_alerts=registred_alerts+[alert]
-    return render(request, 'city/alerts.html', locals())
-
-
+#Sign out button
 def sign_out(request):
     logout(request)
     return redirect('find_city')
 
-def delete_alert(request, alert_id):
-    alert=Alert.objects.get(id=alert_id)
-    alert.delete()
-    return redirect('alerts')
-
-def create_alert(request, city_id):
-    user=request.user
-    alert=Alert(user_id=user, city_id=city_id)
-    alert.save()
-    return redirect('alerts')
-
+# Sign in button
 @login_required
 def sign_in(request):
     return redirect('find_city')

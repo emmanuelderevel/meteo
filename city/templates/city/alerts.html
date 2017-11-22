@@ -4,8 +4,11 @@
 <div class="bgimg-1 w3-display-container" id="home">
     <div class="w3-display-middle" style="white-space:nowrap;background-color:white;padding:20px;opacity:0.6;color:black;">
 <p>Hello {{ user.username }} ! These are your alerts :</p>
+{% if error %}
+<p>You already set an alert for this city</p>
+{% endif %}
 {% for r in registred_alerts %}
-        <p>{{r.city_id}} <a href="{% url 'delete_alert' r.id %}"><i class="fa fa-times-circle"></i>Delete</a></p>
+        <p>{{r.city_name}} <a href="{% url 'delete_alert' r.id %}"><i class="fa fa-times-circle"></i>Delete</a></p>
 {% endfor %}
     </div>
 </div>

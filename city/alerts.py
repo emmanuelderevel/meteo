@@ -4,11 +4,36 @@ import datetime
 from city.models import Alert
 from django.contrib.auth.models import User
 
-
+#This class checks if there will be rain in a city in the coming days given its city_id
 class Check_Alert():
     def __init__(self, city_id):
-        self.city_id=city_id
-        self.alert_display=''
+        self._city_id=city_id
+        self._alert_display=''
+        self._city_name=''
+
+    @property
+    def city_id(self):
+        return self._city_id
+
+    @city_id.setter
+    def city_id(self, city_id):
+        self._city_id=city_id
+
+    @property
+    def alert_display(self):
+        return self._alert_display
+
+    @alert_display.setter
+    def alert_display(self, alert_display):
+        self._alert_display=alert_display
+
+    @property
+    def city_name(self):
+        return self._city_name
+
+    @city_name.setter
+    def city_name(self, city_name):
+        self._city_name=city_name
 
     def retrieveRain_Alert(self):
         r = requests.get('http://api.openweathermap.org/data/2.5/'
@@ -26,10 +51,12 @@ class Check_Alert():
                     alert_dict[day]=rain_type
             except KeyError:
                 pass
+        alert_list=''
         for d in alert_dict:
-            self.alert_display+=', on {0} : {1}'.format(d, alert_dict[d])
-        self.alert_display=self.alert_display[2:]
+            alert_list+=', on {0} : {1}'.format(d, alert_dict[d])
+        self.alert_display=alert_list[2:]
 
+#This method take a user, create Check_Alert objects for each alerts related to the user and return a sentence to be displayed on the navigation bar
 def all_alerts_display(user):
      alerts=""
      for alert in Alert.objects.filter(user_id=user):
@@ -38,8 +65,3 @@ def all_alerts_display(user):
          if check.alert_display!="":
             alerts+="{0} - {1}. ".format(check.city_name.upper(), check.alert_display)
      return alerts
-
-
-# a=Check_Alert(2988507)
-# a.retrieveRain_Alert()
-# print(a.alert_display)

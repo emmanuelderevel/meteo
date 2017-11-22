@@ -14,7 +14,8 @@ class NameForm(forms.Form):
                 L = L + [data[i]]
         if len(L)==0 :
             raise forms.ValidationError("It looks like you did not enter a valid city name, please try again :)")
-        return city_name  # Ne pas oublier de renvoyer le contenu du champ traité
+        return city_name
+
 class SignUpForm(forms.Form):
     username = forms.CharField(label='', max_length=100, widget=forms.TextInput(attrs={'class': 'w3-input w3-border', 'placeholder': 'username'}))
     email = forms.EmailField(label='', max_length=100, widget=forms.TextInput(attrs={'class': 'w3-input w3-border', 'placeholder': 'email'}))
