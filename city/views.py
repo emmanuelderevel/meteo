@@ -86,36 +86,36 @@ def weather(request, city_id):
     fcst = Forecast(city_id)
     fcst.retrieve_forecast()
 
-    day = fcst.dt[4]
-    day_nbr=datetime.strptime(fcst.dt[4], '%Y-%m-%d').day
-    month_nbr=datetime.strptime(fcst.dt[4], '%Y-%m-%d').month
+    day = fcst.getdt()[4]
+    day_nbr=datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').day
+    month_nbr=datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').month
     monthstr=MonofYear(month_nbr)
-    year_nbr=datetime.strptime(fcst.dt[4], '%Y-%m-%d').year
-    wd1 = datetime.strptime(fcst.dt[4], '%Y-%m-%d').isoweekday()
+    year_nbr=datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').year
+    wd1 = datetime.strptime(fcst.getdt()[4], '%Y-%m-%d').isoweekday()
     daystr = DayOfWeek(wd1)
 
-    d1 = fcst.list[0]
-    wd1 = datetime.strptime(fcst.dt[0], '%Y-%m-%d').isoweekday()
+    d1 = fcst.getlist()[0]
+    wd1 = datetime.strptime(fcst.getdt()[0], '%Y-%m-%d').isoweekday()
     day1 = DayOfWeek(wd1)
     max1, min1, wind1, pressure1, icon1, desc1 = d1[0],d1[1],d1[2],d1[3],d1[4],d1[5]
 
-    d2 = fcst.list[1]
-    wd1 = datetime.strptime(fcst.dt[1], '%Y-%m-%d').isoweekday()
+    d2 = fcst.getlist()[1]
+    wd1 = datetime.strptime(fcst.getdt()[1], '%Y-%m-%d').isoweekday()
     day2 = DayOfWeek(wd1)
     max2, min2, wind2, pressure2, icon2, desc2 = d2[0], d2[1], d2[2], d2[3], d2[4], d2[5]
 
-    d3 = fcst.list[2]
-    wd1 = datetime.strptime(fcst.dt[2], '%Y-%m-%d').isoweekday()
+    d3 = fcst.getlist()[2]
+    wd1 = datetime.strptime(fcst.getdt()[2], '%Y-%m-%d').isoweekday()
     day3 = DayOfWeek(wd1)
     max3, min3, wind3, pressure3, icon3, desc3 = d3[0], d3[1], d3[2], d3[3], d3[4], d3[5]
 
-    d4 = fcst.list[3]
-    wd1 = datetime.strptime(fcst.dt[3], '%Y-%m-%d').isoweekday()
+    d4 = fcst.getlist()[3]
+    wd1 = datetime.strptime(fcst.getdt()[3], '%Y-%m-%d').isoweekday()
     day4 = DayOfWeek(wd1)
     max4, min4, wind4, pressure4, icon4, desc4 = d4[0], d4[1], d4[2], d4[3], d4[4], d4[5]
 
 
-    locTime = LocalTime(lat,lon)
+    locTime = LocalTime(float(lat),float(lon))
     locTime.calculateLocalTime()
     offset = locTime.dstOffset+locTime.rawOffset
 
