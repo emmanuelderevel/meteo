@@ -13,6 +13,7 @@ class Img():
         self._reference=''
         self._width=''
         self._error=''
+
     # Getters and setters des attributs
     @property
     def lon(self):

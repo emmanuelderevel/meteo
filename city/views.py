@@ -6,10 +6,10 @@ from .forms import NameForm, SignUpForm, ConnexionForm
 from .weather import Weather
 from datetime import datetime
 from .forecast import Forecast
-from .CityPic import Img
-from .LocalTime import LocalTime
+from .citypic import Img
+from .localtime import LocalTime
 from .alerts import all_alerts_display
-from .UV import UV
+from .uv import UV
 from django.db import IntegrityError
 
 
