@@ -28,85 +28,98 @@ class Weather():
     @city_id.setter
     def city_id(self, city_id):
         self._city_id = city_id
+
     @property
     def lon(self):
         return self._lon
     @lon.setter
     def lon(self,lon):
         self._lon=lon
+
     @property
     def lat(self):
         return self._lat
     @lat.setter
     def lat(self,lat):
         self._lat=lat
+
     @property
     def temp(self):
         return self._temp
     @temp.setter
     def temp(self,temp):
         self._temp=temp
+
     @property
     def temp_max(self):
         return self._temp_max
     @temp_max.setter
     def temp_max(self,a):
         self._temp_max=a
+
     @property
     def temp_min(self):
         return self._temp_min
     @temp_min.setter
     def temp_min(self,b):
         self._temp_min=b
+
     @property
     def main(self):
         return self._main
-
     @main.setter
     def main(self,b):
         self._main=b
+
     @property
     def icon(self):
         return self._icon
     @icon.setter
     def icon(self,c):
         self._icon=c
+
     @property
     def description(self):
         return self._description
     @description.setter
     def description(self,d):
         self._description=d
+
     @property
     def wind(self):
         return self._wind
     @wind.setter
     def wind(self,wind):
         self._wind=wind
+
     @property
     def country(self):
         return self._country
     @country.setter
     def country(self,c):
         self._country=c
+
     @property
     def city(self):
         return self._city
     @city.setter
     def city(self,d):
         self._city=d
+
     @property
     def humidity(self):
         return self._humidity
     @humidity.setter
     def humidity(self,d):
         self._humidity=d
+
     @property
     def pressure(self):
         return self._pressure
     @pressure.setter
     def pressure(self,d):
         self._pressure=d
+
     # function that retrieves all the weather info of a city
     def retrieveWeathInfo(self):
         try:
