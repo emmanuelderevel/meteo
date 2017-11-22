@@ -351,7 +351,7 @@
             </script>
          </section>
          <section style="float:right">
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id city %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
          </section>
          <section>
             <table style="margin-left: 0px">
@@ -432,45 +432,6 @@ function calcTime(offset) {
 
     requestAnimationFrame(updateclock)
 </script>
-  <section style="float:right">
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id city %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
-
-  </section>
-
-  <section>
-    <table style="margin-left: 0px">
-      <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></caption>
-
-        <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;text-align: center;font-weight: bold"> <!-- Corps du tableau -->
-          <tr>
-            <td>{{day1}}
-            <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25">
-                <br /><span>{{desc1}}</span>
-                <br /><span>{{max1}}°/{{min1}}°</span>
-                <br /><span>{{wind1}} m/s</span>
-                <br /><span>{{pressure1}} hPa</span>
-            <td>{{day2}}
-            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon2}}.png" data-reactid="25">
-              <br /><span>{{desc2}}</span>
-              <br /><span>{{max2}}°/{{min2}}°</span>
-              <br /><span>{{wind2}} m/s</span>
-              <br /><span>{{pressure2}} hPa</span>
-            <td>{{day3}}
-            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon3}}.png" data-reactid="25">
-              <br /><span>{{desc3}}</span>
-              <br /><span>{{max3}}°/{{min3}}°</span>
-              <br /><span>{{wind3}} m/s</span>
-              <br /><span>{{pressure3}} hPa</span>
-            <td>{{day4}}
-            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon4}}.png" data-reactid="25">
-              <br /><span>{{desc4}}</span>
-              <br /><span>{{max4}}°/{{min4}}°</span>
-              <br /><span>{{wind4}} m/s</span>
-              <br /><span>{{pressure4}} hPa</span>
-          </tr>
-        </tbody>
-    </table>
-      </section>
 </body>
 </html>
 
