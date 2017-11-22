@@ -1,7 +1,5 @@
 import requests
 import random
-
-# In this class we use an api of google to find randomly a picture of a given city from his latitude and longitude
 class Img():
     def __init__(self, lat,lon):
         #Exceptions sur les valeurs des propriétés
@@ -47,6 +45,7 @@ class Img():
     @error.setter
     def error(self,error):
         self._error=error
+
     # Fonction qui détermine les images à afficher en fonction de la ville
     def retrieveImgRef(self):
         try:

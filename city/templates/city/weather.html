@@ -222,7 +222,7 @@
             <a href="{% url 'find_city' %}" class="w3-bar-item w3-button"><i class="fa fa-search"></i>  FIND CITY</a>
             <a href="{% url 'alerts' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-gears"></i>  MY ALERTS</a>
             {% if user.is_authenticated %}
-            <a class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-umbrella"></i>Rain alert ! {{alert_list}}</a>
+            <a class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-umbrella"></i>Rain alerts : {{alerts}}</a>
             <a href="{% url 'sign_out' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-out"></i>  SIGN OUT</a>
             {% else %}
             <a href="{% url 'sign_in' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-in"></i>  SIGN IN</a>
@@ -267,6 +267,7 @@
                      </div>
                   </div>
                </div>
+                <a href="{% url 'create_alert' city_id city %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
             </div>
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
             <script type="text/javascript">
@@ -349,9 +350,6 @@
 
                requestAnimationFrame(updateclock)
             </script>
-         </section>
-         <section style="float:right">
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id city %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
          </section>
          <section>
             <table style="margin-left: 0px">
