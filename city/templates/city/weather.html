@@ -1,327 +1,393 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Weather at {{city}}</title>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <style>
-    div{
-      color: white
-    }
-    .outer_face {
-        position: relative;
-        width: 300px;
-        height: 300px;
-        border-radius: 250px;
-        background: white;
-        box-shadow: inset 0 0 10px gray;
-        border: 14px solid black
-    }
-
-    .outer_face::before, .outer_face::after, .outer_face .marker {
-        content: "";
-        position: absolute;
-        width: 10px;
-        height: 100%;
-        background: black;
-        z-index: 0;
-        left: 50%;
-        margin-left: -5px;
-        top: 0
-    }
-
-    .outer_face::after {
-        -moz-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -webkit-transform: rotate(90deg);
-        transform: rotate(90deg)
-    }
-
-    .outer_face .marker {
-        background: gray;
-        width: 8px;
-        margin-left: -4px
-    }
-
-    .outer_face .marker.oneseven {
-        -moz-transform: rotate(30deg);
-        -ms-transform: rotate(30deg);
-        -webkit-transform: rotate(30deg);
-        transform: rotate(30deg)
-    }
-
-    .outer_face .marker.twoeight {
-        -moz-transform: rotate(60deg);
-        -ms-transform: rotate(60deg);
-        -webkit-transform: rotate(60deg);
-        transform: rotate(60deg)
-    }
-
-    .outer_face .marker.fourten {
-        -moz-transform: rotate(120deg);
-        -ms-transform: rotate(120deg);
-        -webkit-transform: rotate(120deg);
-        transform: rotate(120deg)
-    }
-
-    .outer_face .marker.fiveeleven {
-        -moz-transform: rotate(150deg);
-        -ms-transform: rotate(150deg);
-        -webkit-transform: rotate(150deg);
-        transform: rotate(150deg)
-    }
-
-    .inner_face {
-        position: relative;
-        width: 88%;
-        height: 88%;
-        background: white;
-        -moz-border-radius: 1000px;
-        -webkit-border-radius: 1000px;
-        border-radius: 1000px;
-        z-index: 1000;
-        left: 6%;
-        top: 6%
-    }
-
-    .inner_face::before {
-        /* clock center circle small */
-        content: "";
-        width: 18px;
-        height: 18px;
-        border-radius: 18px;
-        margin-left: -9px;
-        margin-top: -9px;
-        background: black;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        box-shadow: 0 0 30px gray
-    }
-
-    .inner_face::after {
-        content: "QUARTZ";
-        position: absolute;
-        width: 100%;
-        font: normal 0.8em Arial;
-        color: gray;
-        text-align: center;
-        top: 85%
-    }
-
-    .hand, .hand.hour {
-        position: absolute;
-        width: 4px;
-        height: 30%;
-        top: 20%;
-        left: 50%;
-        margin-left: -2px;
-        background: black;
-        -moz-transform-origin: bottom;
-        -ms-transform-origin: bottom;
-        -webkit-transform-origin: bottom;
-        transform-origin: bottom;
-        z-index: -1;
-        -moz-box-shadow: 0 0 3px gray;
-        -webkit-box-shadow: 0 0 3px gray;
-        box-shadow: 0 0 3px gray
-     }
-
-    .hand.minute {
-        height: 45%;
-        top: 5%;
-        width: 6px;
-        margin-left: -3px;
-    }
-
-    .hand.second {
-        height: 50%;
-        width: 2px;
-        margin-left: -1px;
-        top: 0;
-        background: red
-    }
-    .container {
-        display: inline-block;
-        width: 50%;
-        height: 75px;
-    }
-    .forecast-container {
-  background: black;
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
-        opacity:0.8;}
-  .forecast-container .forecast {
-    display: table-cell;
-    }
-    .forecast-container .forecast:nth-child(even) {
-      background-color: #262936; }
-    @media screen and (max-width: 990px) {
-      .forecast-container .forecast {
-        display: block;
-        width: 16.6667%;
-        float: left; } }
-    .forecast-container .forecast.today {
-      width: 420px; }
-      .forecast-container .forecast.today .forecast-header {
-        *zoom: 1; }
-        .forecast-container .forecast.today .forecast-header:after {
-          content: " ";
-          clear: both;
-          display: block;
-          overflow: hidden;
-          height: 0; }
-        .forecast-container .forecast.today .forecast-header .day {
-          float: left; }
-        .forecast-container .forecast.today .forecast-header .date {
-          float: right; }
-      .forecast-container .forecast.today .forecast-content {
-        text-align: left;
-        padding-top: 30px;
-        padding-bottom: 30px; }
-      .forecast-container .forecast.today .location {
-        font-size: 18px;
-        font-size: 1.2857142857em;
-        font-weight: 400; }
-      .forecast-container .forecast.today .degree .num, .forecast-container .forecast.today .degree .forecast-icon {
-        display: inline-block;
-        vertical-align: middle; }
-      .forecast-container .forecast.today .degree .num {
-        font-size: 90px;
-        font-size: 6.4285714286rem;
-        margin-right: 30px; }
-      .forecast-container .forecast.today span {
-        margin-right: 20px; }
-        .forecast-container .forecast.today span img {
-          margin-right: 5px;
-          vertical-align: middle; }
-      @media screen and (max-width: 990px) {
-        .forecast-container .forecast.today {
-          display: block;
-          width: 100%; } }
-    .forecast-container .forecast .forecast-header {
-      background: rgba(0, 0, 0, 0.1);
-      padding: 10px;
-      text-align: center;
-      font-weight: 400; }
-    .forecast-container .forecast .forecast-icon {
-      height: 50px; }
-    .forecast-container .forecast .forecast-content {
-      padding: 50px 20px 10px;
-      text-align: center; }
-      .forecast-container .forecast .forecast-content .forecast-icon {
-        margin-bottom: 20px; }
-      .forecast-container .forecast .forecast-content .degree {
-        font-size: 24px;
-        font-size: 1.7142857143em;
-        color: white;
-        font-weight: 700; }
-      .forecast-container .forecast .forecast-content small {
-        font-size: 16px;
-        font-size: 1.1428571429em; }
-</style>
-
-<body style="background-image: url({{ bgref }});background-attachment: fixed;background-size: cover">
-
-<!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-card w3-black" style="padding:5px;opacity:0.9;" id="myNavbar">
-    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-      <i class="fa fa-bars"></i>
-    </a>
-    <a href="{% url 'find_city' %}" class="w3-bar-item w3-button"><i class="fa fa-search"></i>  FIND CITY</a>
-    <a href="{% url 'alerts' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-gears"></i>  MY ALERTS</a>
-    {% if user.is_authenticated %}
-    <a class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-umbrella"></i>Rain alert ! {{alert_list}}</a>
-    <a href="{% url 'sign_out' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-out"></i>  SIGN OUT</a>
-    {% else %}
-    <a href="{% url 'sign_in' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-in"></i>  SIGN IN</a>
-    {% endif %}
-  </div>
-</div>
-
-<!-- Content -->
-  <div>
-  <br /><br /><h1 style="color:white;float: center;"><span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Weather at {{city}}, {{ country }}</span><br/><br/></h1>
-
-  <section class="weather-card C(#fff) M(10px) Pos(a) B(0) Start(0) End(0)" data-type="temperature" data-reactid="21">
-    <div class="container">
-    <div class="forecast-container">
-    <div class="today forecast">
-    <div class="forecast-header" style="font-weight: bold">
-      <div class="day">{{ daystr }}</div>
-      <div class="date">{{ monthstr }} {{ day_nbr }}</div>
-    </div> <!-- .forecast-header -->
-    <div class="forecast-content">
-      <div class="maxmin">
-        <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-up" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
-          <path d="M13.764 18.75c-.792.772-.808 2.037-.04 2.828.772.792 2.038.81 2.83.04l5.678-5.526v23.59h4v-23.59l5.68 5.525c.79.77 2.058.753 2.827-.04.377-.388.565-.89.565-1.394 0-.52-.202-1.042-.605-1.434L24.23 8.566 13.763 18.75z">
-          </path>
-        </svg>
-        <span class="Va(m) Px(6px)" data-reactid="29">{{max}}°
-          <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-down" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
-            <path d="M34.7 29.5c.793-.773.81-2.038.04-2.83-.77-.79-2.037-.81-2.83-.038l-5.677 5.525V8.567h-4v23.59l-5.68-5.525c-.79-.77-2.058-.753-2.827.04-.378.388-.566.89-.566 1.394 0 .52.202 1.042.605 1.434l10.472 10.183L34.7 29.5z">
-            </path>
-          </svg>
-          <span class="Va(m) Px(6px)" data-reactid="33">{{min}}°
-          </div>
-          <div class="degree">
-            <div class="num">{{ temp }}<sup>o</sup>C</div>
-            <div class="forecast-icon">
-              <img alt=" {{description}}" height="75" title=" {{description}}" width="90" class=" " src="http://openweathermap.org/img/w/{{icon}}.png" data-reactid="25">
+   <head>
+      <title>Weather at {{city}}</title>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style>
+         div{
+         color: white
+         }
+         .outer_face {
+         position: relative;
+         width: 300px;
+         height: 300px;
+         border-radius: 250px;
+         background: white;
+         box-shadow: inset 0 0 10px gray;
+         border: 14px solid black
+         }
+         .outer_face::before, .outer_face::after, .outer_face .marker {
+         content: "";
+         position: absolute;
+         width: 10px;
+         height: 100%;
+         background: black;
+         z-index: 0;
+         left: 50%;
+         margin-left: -5px;
+         top: 0
+         }
+         .outer_face::after {
+         -moz-transform: rotate(90deg);
+         -ms-transform: rotate(90deg);
+         -webkit-transform: rotate(90deg);
+         transform: rotate(90deg)
+         }
+         .outer_face .marker {
+         background: gray;
+         width: 8px;
+         margin-left: -4px
+         }
+         .outer_face .marker.oneseven {
+         -moz-transform: rotate(30deg);
+         -ms-transform: rotate(30deg);
+         -webkit-transform: rotate(30deg);
+         transform: rotate(30deg)
+         }
+         .outer_face .marker.twoeight {
+         -moz-transform: rotate(60deg);
+         -ms-transform: rotate(60deg);
+         -webkit-transform: rotate(60deg);
+         transform: rotate(60deg)
+         }
+         .outer_face .marker.fourten {
+         -moz-transform: rotate(120deg);
+         -ms-transform: rotate(120deg);
+         -webkit-transform: rotate(120deg);
+         transform: rotate(120deg)
+         }
+         .outer_face .marker.fiveeleven {
+         -moz-transform: rotate(150deg);
+         -ms-transform: rotate(150deg);
+         -webkit-transform: rotate(150deg);
+         transform: rotate(150deg)
+         }
+         .inner_face {
+         position: relative;
+         width: 88%;
+         height: 88%;
+         background: white;
+         -moz-border-radius: 1000px;
+         -webkit-border-radius: 1000px;
+         border-radius: 1000px;
+         z-index: 1000;
+         left: 6%;
+         top: 6%
+         }
+         .inner_face::before {
+         /* clock center circle small */
+         content: "";
+         width: 18px;
+         height: 18px;
+         border-radius: 18px;
+         margin-left: -9px;
+         margin-top: -9px;
+         background: black;
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         box-shadow: 0 0 30px gray
+         }
+         .inner_face::after {
+         content: "QUARTZ";
+         position: absolute;
+         width: 100%;
+         font: normal 0.8em Arial;
+         color: gray;
+         text-align: center;
+         top: 85%
+         }
+         .hand, .hand.hour {
+         position: absolute;
+         width: 4px;
+         height: 30%;
+         top: 20%;
+         left: 50%;
+         margin-left: -2px;
+         background: black;
+         -moz-transform-origin: bottom;
+         -ms-transform-origin: bottom;
+         -webkit-transform-origin: bottom;
+         transform-origin: bottom;
+         z-index: -1;
+         -moz-box-shadow: 0 0 3px gray;
+         -webkit-box-shadow: 0 0 3px gray;
+         box-shadow: 0 0 3px gray
+         }
+         .hand.minute {
+         height: 45%;
+         top: 5%;
+         width: 6px;
+         margin-left: -3px;
+         }
+         .hand.second {
+         height: 50%;
+         width: 2px;
+         margin-left: -1px;
+         top: 0;
+         background: red
+         }
+         .container {
+         display: inline-block;
+         width: 50%;
+         height: 75px;
+         }
+         .forecast-container {
+         background: black;
+         display: table;
+         table-layout: fixed;
+         width: 100%;
+         overflow: hidden;
+         border-radius: 10px;
+         opacity:0.8;}
+         .forecast-container .forecast {
+         display: table-cell;
+         }
+         .forecast-container .forecast:nth-child(even) {
+         background-color: #262936; }
+         @media screen and (max-width: 990px) {
+         .forecast-container .forecast {
+         display: block;
+         width: 16.6667%;
+         float: left; } }
+         .forecast-container .forecast.today {
+         width: 420px; }
+         .forecast-container .forecast.today .forecast-header {
+         *zoom: 1; }
+         .forecast-container .forecast.today .forecast-header:after {
+         content: " ";
+         clear: both;
+         display: block;
+         overflow: hidden;
+         height: 0; }
+         .forecast-container .forecast.today .forecast-header .day {
+         float: left; }
+         .forecast-container .forecast.today .forecast-header .date {
+         float: right; }
+         .forecast-container .forecast.today .forecast-content {
+         text-align: left;
+         padding-top: 30px;
+         padding-bottom: 30px; }
+         .forecast-container .forecast.today .location {
+         font-size: 18px;
+         font-size: 1.2857142857em;
+         font-weight: 400; }
+         .forecast-container .forecast.today .degree .num, .forecast-container .forecast.today .degree .forecast-icon {
+         display: inline-block;
+         vertical-align: middle; }
+         .forecast-container .forecast.today .degree .num {
+         font-size: 90px;
+         font-size: 6.4285714286rem;
+         margin-right: 30px; }
+         .forecast-container .forecast.today span {
+         margin-right: 20px; }
+         .forecast-container .forecast.today span img {
+         margin-right: 5px;
+         vertical-align: middle; }
+         @media screen and (max-width: 990px) {
+         .forecast-container .forecast.today {
+         display: block;
+         width: 100%; } }
+         .forecast-container .forecast .forecast-header {
+         background: rgba(0, 0, 0, 0.1);
+         padding: 10px;
+         text-align: center;
+         font-weight: 400; }
+         .forecast-container .forecast .forecast-icon {
+         height: 50px; }
+         .forecast-container .forecast .forecast-content {
+         padding: 50px 20px 10px;
+         text-align: center; }
+         .forecast-container .forecast .forecast-content .forecast-icon {
+         margin-bottom: 20px; }
+         .forecast-container .forecast .forecast-content .degree {
+         font-size: 24px;
+         font-size: 1.7142857143em;
+         color: white;
+         font-weight: 700; }
+         .forecast-container .forecast .forecast-content small {
+         font-size: 16px;
+         font-size: 1.1428571429em; }
+      </style>
+   <body style="background-image: url({{ bgref }});background-attachment: fixed;background-size: cover">
+      <!-- Navbar -->
+      <div class="w3-top">
+         <div class="w3-bar w3-card w3-black" style="padding:5px;opacity:0.9;" id="myNavbar">
+            <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+            <i class="fa fa-bars"></i>
+            </a>
+            <a href="{% url 'find_city' %}" class="w3-bar-item w3-button"><i class="fa fa-search"></i>  FIND CITY</a>
+            <a href="{% url 'alerts' %}" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-gears"></i>  MY ALERTS</a>
+            {% if user.is_authenticated %}
+            <a class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-umbrella"></i>Rain alert ! {{alert_list}}</a>
+            <a href="{% url 'sign_out' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-out"></i>  SIGN OUT</a>
+            {% else %}
+            <a href="{% url 'sign_in' %}" class="w3-bar-item w3-right w3-button w3-hide-small"><i class="fa fa-sign-in"></i>  SIGN IN</a>
+            {% endif %}
+         </div>
+      </div>
+      <!-- Content -->
+      <div>
+         <br /><br />
+         <h1 style="color:white;float: center;"><span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Weather at {{city}}, {{ country }}</span><br/><br/></h1>
+         <section class="weather-card C(#fff) M(10px) Pos(a) B(0) Start(0) End(0)" data-type="temperature" data-reactid="21">
+            <div class="container">
+               <div class="forecast-container">
+                  <div class="today forecast">
+                     <div class="forecast-header" style="font-weight: bold">
+                        <div class="day">{{ daystr }}</div>
+                        <div class="date">{{ monthstr }} {{ day_nbr }}</div>
+                     </div>
+                     <!-- .forecast-header -->
+                     <div class="forecast-content">
+                        <div class="maxmin">
+                           <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-up" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
+                              <path d="M13.764 18.75c-.792.772-.808 2.037-.04 2.828.772.792 2.038.81 2.83.04l5.678-5.526v23.59h4v-23.59l5.68 5.525c.79.77 2.058.753 2.827-.04.377-.388.565-.89.565-1.394 0-.52-.202-1.042-.605-1.434L24.23 8.566 13.763 18.75z">
+                              </path>
+                           </svg>
+                            <span class="Va(m) Px(6px)" data-reactid="29">{{max}}°</span>
+                           <svg class="Va(m) Px(6px) Cur(p)" width="20" height="20" viewBox="0 0 48 48" data-icon="arrow-down" style="fill: rgb(255, 255, 255); stroke: rgb(255, 255, 255); stroke-width: 0; vertical-align: bottom;">
+                              <path d="M34.7 29.5c.793-.773.81-2.038.04-2.83-.77-.79-2.037-.81-2.83-.038l-5.677 5.525V8.567h-4v23.59l-5.68-5.525c-.79-.77-2.058-.753-2.827.04-.378.388-.566.89-.566 1.394 0 .52.202 1.042.605 1.434l10.472 10.183L34.7 29.5z">
+                              </path>
+                           </svg>
+                            <span class="Va(m) Px(6px)" data-reactid="33">{{min}}°</span>
+                        </div>
+                        <div class="degree">
+                           <div class="num">{{ temp }}<sup>o</sup>C</div>
+                           <div class="forecast-icon">
+                              <img alt=" {{description}}" height="75" title=" {{description}}" width="90" class=" " src="http://openweathermap.org/img/w/{{icon}}.png" data-reactid="25">
+                           </div>
+                        </div>
+                        <span><img width="46px" height="42px" src=https://cdn0.iconfinder.com/data/icons/wthr-color/32/693754-humidity-low-512.png alt="">{{ humidity }}%</span>
+                        <span><img width="46px" height="42px" src=https://cdn2.iconfinder.com/data/icons/lovely-weather-icons/32/wind1-512.png alt="">{{ wind }} m/s</span>
+                        <span><img width="46px" height="42px" src=https://cdn1.iconfinder.com/data/icons/weather-cool-vector-2/128/59-512.png alt="">{{ uv_value }}</span>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-          <span><img width="46px" height="42px" src=https://cdn0.iconfinder.com/data/icons/wthr-color/32/693754-humidity-low-512.png alt="">{{ humidity }}%</span>
-          <span><img width="46px" height="42px" src=https://cdn2.iconfinder.com/data/icons/lovely-weather-icons/32/wind1-512.png alt="">{{ wind }} m/s</span>
-          <span><img width="46px" height="42px" src=https://cdn1.iconfinder.com/data/icons/weather-cool-vector-2/128/59-512.png alt="">{{ uv_value }}</span>
-        </div>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script type="text/javascript">
+               // given the city's UTC offset
+               function calcTime(offset) {
+
+               // create Date object for current location
+               d = new Date();
+
+               // convert to msec
+               // add local time zone offset
+               // get UTC time in msec
+               utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+               // create new Date object for different city
+               // using supplied offset
+               nd = new Date(utc + (1000*offset));
+
+               // return time as a string
+               return nd;
+
+               }
+               var el=document.getElementById('calcTimea')
+               el.onclick=calcTime({{offset}})
+            </script>
+            <div class="container" style="float: left;" id="liveclock">
+               <div class="outer_face">
+                  <div class="marker oneseven"></div>
+                  <div class="marker twoeight"></div>
+                  <div class="marker fourten"></div>
+                  <div class="marker fiveeleven"></div>
+                  <div class="inner_face">
+                     <div class="hand hour"></div>
+                     <div class="hand minute"></div>
+                     <div class="hand second"></div>
+                  </div>
+               </div>
+            </div>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+            <script type="text/javascript">
+               // given the city's UTC offset
+               function calcTime(offset) {
+
+               // create Date object for current location
+               d = new Date();
+
+               // convert to msec
+               // add local time zone offset
+               // get UTC time in msec
+               utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+               // create new Date object for different city
+               // using supplied offset
+               nd = new Date(utc + (1000*offset));
+
+               // return time as a string
+               return nd;
+
+               }
+
+               var $hands = $('#liveclock div.hand')
+
+               window.requestAnimationFrame = window.requestAnimationFrame
+                                              || window.mozRequestAnimationFrame
+                                              || window.webkitRequestAnimationFrame
+                                              || window.msRequestAnimationFrame
+                                              || function(f){return setTimeout(f, 1000/60)}
+
+
+               function updateclock(){
+                var curdate = calcTime({{offset}})
+                var hour_as_degree = ( curdate.getHours() + curdate.getMinutes()/60 ) / 12 * 360
+                var minute_as_degree = curdate.getMinutes() / 60 * 360
+                var second_as_degree = ( curdate.getSeconds() + curdate.getMilliseconds()/1000 ) /60 * 360
+                $hands.filter('.hour').css({transform: 'rotate(' + hour_as_degree + 'deg)' })
+                $hands.filter('.minute').css({transform: 'rotate(' + minute_as_degree + 'deg)' })
+                $hands.filter('.second').css({transform: 'rotate(' + second_as_degree + 'deg)' })
+                requestAnimationFrame(updateclock) //
+               }
+
+               requestAnimationFrame(updateclock)
+            </script>
+         </section>
+         <section style="float:right">
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
+         </section>
+         <section>
+            <table style="margin-left: 0px">
+            <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></caption>
+            <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;text-align: center;font-weight: bold">
+               <!-- Corps du tableau -->
+               <tr>
+                  <td>{{day1}}
+                     <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25">
+                      <br /><span>{{desc1}}</span>
+                     <br /><span>{{max1}}°/{{min1}}°</span>
+                     <br /><span>{{wind1}} m/s</span>
+                     <br /><span>{{pressure1}} hPa</span>
+                  <td>{{day2}}
+                     <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon2}}.png" data-reactid="25">
+                     <br /><span>{{desc2}}</span>
+                     <br /><span>{{max2}}°/{{min2}}°</span>
+                     <br /><span>{{wind2}} m/s</span>
+                     <br /><span>{{pressure2}} hPa</span>
+                  <td>{{day3}}
+                     <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon3}}.png" data-reactid="25">
+                     <br /><span>{{desc3}}</span>
+                     <br /><span>{{max3}}°/{{min3}}°</span>
+                     <br /><span>{{wind3}} m/s</span>
+                     <br /><span>{{pressure3}} hPa</span>
+                  <td>{{day4}}
+                     <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon4}}.png" data-reactid="25">
+                     <br /><span>{{desc4}}</span>
+                     <br /><span>{{max4}}°/{{min4}}°</span>
+                     <br /><span>{{wind4}} m/s</span>
+                     <br /><span>{{pressure4}} hPa</span>
+               </tr>
+            </tbody>
+            </table>
+         </section>
       </div>
-    </div>
-    </div>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script type="text/javascript">
-  // given the city's UTC offset
-function calcTime(offset) {
-
-  // create Date object for current location
-  d = new Date();
-
-  // convert to msec
-  // add local time zone offset
-  // get UTC time in msec
-  utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-
-  // create new Date object for different city
-  // using supplied offset
-  nd = new Date(utc + (1000*offset));
-
-  // return time as a string
-  return nd;
-
-}
-var el=document.getElementById('calcTimea')
-el.onclick=calcTime({{offset}})
-</script>
-    <div class="container" style="float: left;" id="liveclock">
-      <div class="outer_face">
-        <div class="marker oneseven"></div>
-        <div class="marker twoeight"></div>
-        <div class="marker fourten"></div>
-        <div class="marker fiveeleven"></div>
-        <div class="inner_face">
-          <div class="hand hour"></div>
-          <div class="hand minute"></div>
-          <div class="hand second"></div>
-        </div>
-
-      </div>
-    </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
     // given the city's UTC offset
@@ -366,7 +432,6 @@ function calcTime(offset) {
 
     requestAnimationFrame(updateclock)
 </script>
-  </section>
   <section style="float:right">
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><a href="{% url 'create_alert' city_id city %}"><button class="w3-button w3-red w3-left w3-section">SET RAIN ALERT</button></a>
 
@@ -374,39 +439,38 @@ function calcTime(offset) {
 
   <section>
     <table style="margin-left: 0px">
-      <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><b><br /></caption>
+      <caption ><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></caption>
 
         <tbody style="background: black;display: table;table-layout: fixed;width: 100%;overflow: hidden;border-radius: 10px;margin: auto;opacity:0.8;text-align: center;font-weight: bold"> <!-- Corps du tableau -->
           <tr>
             <td>{{day1}}
-            <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25"></img>
-            <br /><span>{{desc1}}
-            <br /><span>{{max1}}°/{{min1}}°
-            <br /><span>{{wind1}} m/s
-            <br /><span>{{pressure1}} hPa</br>
+            <br /><img alt=" {{desc1}}" height="50" title=" {{desc1}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon1}}.png" data-reactid="25">
+                <br /><span>{{desc1}}</span>
+                <br /><span>{{max1}}°/{{min1}}°</span>
+                <br /><span>{{wind1}} m/s</span>
+                <br /><span>{{pressure1}} hPa</span>
             <td>{{day2}}
-            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon2}}.png" data-reactid="25"></img>
-            <br /><span>{{desc2}}
-            <br /><span>{{max2}}°/{{min2}}°
-            <br /><span>{{wind2}} m/s
-            <br /><span>{{pressure2}} hPa</br>
+            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon2}}.png" data-reactid="25">
+              <br /><span>{{desc2}}</span>
+              <br /><span>{{max2}}°/{{min2}}°</span>
+              <br /><span>{{wind2}} m/s</span>
+              <br /><span>{{pressure2}} hPa</span>
             <td>{{day3}}
-            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon3}}.png" data-reactid="25"></img>
-            <br /><span>{{desc3}}
-            <br /><span>{{max3}}°/{{min3}}°
-            <br /><span>{{wind3}} m/s
-            <br /><span>{{pressure3}} hPa</br>
+            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon3}}.png" data-reactid="25">
+              <br /><span>{{desc3}}</span>
+              <br /><span>{{max3}}°/{{min3}}°</span>
+              <br /><span>{{wind3}} m/s</span>
+              <br /><span>{{pressure3}} hPa</span>
             <td>{{day4}}
-            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon4}}.png" data-reactid="25"></img>
-            <br /><span>{{desc4}}
-            <br /><span>{{max4}}°/{{min4}}°
-            <br /><span>{{wind4}} m/s
-            <br /><span>{{pressure4}} hPa</br>
+            <br /><img alt=" {{description}}" height="50" title=" {{description}}" width="50" class=" " src="http://openweathermap.org/img/w/{{icon4}}.png" data-reactid="25">
+              <br /><span>{{desc4}}</span>
+              <br /><span>{{max4}}°/{{min4}}°</span>
+              <br /><span>{{wind4}} m/s</span>
+              <br /><span>{{pressure4}} hPa</span>
           </tr>
         </tbody>
+    </table>
       </section>
-</div>
 </body>
 </html>
-
 
