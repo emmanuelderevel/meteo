@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^sign_out$', views.sign_out, name='sign_out'),
     url(r'alerts$', views.alerts, name='alerts'),
     url(r'^delete_alert/(\d+)$', views.delete_alert, name='delete_alert'),
-    url(r'^create_alert/(\d+)/(\w+)$', views.create_alert, name='create_alert'),
+    url(r'^create_alert/(\d+)/([\w\ \-]+)$', views.create_alert, name='create_alert'),
     url(r'^sign_in$', views.sign_in, name='sign_in'),
 
 ]
