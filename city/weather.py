@@ -5,6 +5,8 @@ import requests
 class Weather():
     #Definition of the protected weather attributes and their getters and setters
     def __init__(self, city_id):
+        if not isinstance(city_id,int):
+            raise TypeError("City ID is not valid")
         self._city_id=city_id
         self._lon=''
         self._lat=''
@@ -23,116 +25,89 @@ class Weather():
     @property
     def city_id(self):
         return self._city_id
-
     @city_id.setter
-    def city_id(self,city_id):
-        self._city_id=city_id
-
+    def city_id(self, city_id):
+        self._city_id = city_id
     @property
     def lon(self):
         return self._lon
-
     @lon.setter
     def lon(self,lon):
         self._lon=lon
-
     @property
     def lat(self):
         return self._lat
-
     @lat.setter
     def lat(self,lat):
         self._lat=lat
-
     @property
     def temp(self):
         return self._temp
-
     @temp.setter
     def temp(self,temp):
         self._temp=temp
-
     @property
     def temp_max(self):
         return self._temp_max
-
     @temp_max.setter
-    def temp_max(self,temp_max):
-        self._temp_max=temp_max
-
+    def temp_max(self,a):
+        self._temp_max=a
     @property
     def temp_min(self):
         return self._temp_min
-
     @temp_min.setter
-    def temp_min(self,temp_min):
-        self._temp_min=temp_min
-
+    def temp_min(self,b):
+        self._temp_min=b
     @property
     def main(self):
         return self._main
 
     @main.setter
-    def main(self,main):
-        self._main=main
-
+    def main(self,b):
+        self._main=b
     @property
     def icon(self):
         return self._icon
-
     @icon.setter
-    def icon(self,icon):
-        self._icon=icon
-
+    def icon(self,c):
+        self._icon=c
     @property
     def description(self):
         return self._description
-
     @description.setter
-    def description(self,description):
-        self._description=description
-
+    def description(self,d):
+        self._description=d
     @property
     def wind(self):
         return self._wind
-
     @wind.setter
     def wind(self,wind):
         self._wind=wind
-
     @property
     def country(self):
         return self._country
-
     @country.setter
-    def country(self,country):
-        self._country=country
-
+    def country(self,c):
+        self._country=c
     @property
     def city(self):
         return self._city
-
     @city.setter
-    def city(self,city):
-        self._city=city
-
+    def city(self,d):
+        self._city=d
     @property
     def humidity(self):
         return self._humidity
-
     @humidity.setter
-    def humidity(self,humidity):
-        self._humidity=humidity
-
+    def humidity(self,d):
+        self._humidity=d
     @property
     def pressure(self):
         return self._pressure
-
     @pressure.setter
-    def pressure(self,pressure):
-        self._pressure=pressure
-
-
+    def pressure(self,d):
+        self._pressure=d
+    # function that retrieves all the weather info of a city
     def retrieveWeathInfo(self):
         try:
             html = 'http://api.openweathermap.org/data/2.5/weather?' \
@@ -140,24 +115,27 @@ class Weather():
             client = requests.get(html)
             j = client.json()
             self.temp=j['main']['temp']
-            self.temp_max(j['main']['temp_max'])
-            self.settemp_min(j['main']['temp_min'])
-            self.setmain(j['weather'][0]['main'])
-            self.seticon(j['weather'][0]['icon'])
-            self.setdescription(j['weather'][0]['description'])
-            self.sethumidity(j['main']['humidity'])
-            self.setpressure(j['main']['pressure'])
-            self.setwind(j['wind']['speed'])
-            self.setcity(j['name'])
-            self.setlon(j['coord']['lon'])
-            self.setlat(j['coord']['lat'])
-            self.setcountry(j['sys']['country'])
+            self.temp_max=j['main']['temp_max']
+            self.temp_min=j['main']['temp_min']
+            self.main=j['weather'][0]['main']
+            self.icon=j['weather'][0]['icon']
+            self.description=j['weather'][0]['description']
+            self.humidity=j['main']['humidity']
+            self.pressure=j['main']['pressure']
+            self.wind=j['wind']['speed']
+            self.city=j['name']
+            self.lon=j['coord']['lon']
+            self.lat=j['coord']['lat']
+            self.country=j['sys']['country']
         except ConnectionError:
             # Raise an exception if connection error
             print('No access to the API. Try later ')
 
 
+
+
+
 if __name__ == '__main__':
-    p=Weather(6455259)
+    p=Weather(2643743)
     p.retrieveWeathInfo()
-    print(p.gettemp())
+    print(p.humidity)
